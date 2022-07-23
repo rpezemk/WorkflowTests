@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="DragDropTest.DraggableControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DragDropTest"
+             mc:Ignorable="d"  Loaded="UserControl_Loaded"
+             Height="auto" MinWidth="30" BorderThickness="2" BorderBrush="Black" Background="Transparent" MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" PreviewMouseMove="UserControl_PreviewMouseMove" MouseMove="UserControl_MouseMove" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="4"/>
+        </Grid.RowDefinitions>
+        <!--<Button x:Name="MyButton" MouseDown="Button_MouseDown" MouseUp="Button_MouseUp" MouseMove="Button_MouseMove" Click="MyButton_Click"/>-->
+        <Border x:Name="Input" Background="Black" Width="4" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Row="1" x:Name="MyTextBlock0" Height="15" VerticalAlignment="Bottom" FontSize="8"/>
+        <TextBlock Grid.Row="2" x:Name="MyTextBlock" Height="15" VerticalAlignment="Bottom" FontSize="8"/>
+        <Border Grid.Row="3" x:Name="Output" Background="Black" Width="4" HorizontalAlignment="Right"/>
+    </Grid>
+</UserControl>

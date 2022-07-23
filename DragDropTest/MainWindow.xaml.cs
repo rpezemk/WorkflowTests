@@ -75,33 +75,36 @@ namespace DragDropTest
             foreach (var link in links)
             {
                 var linkControl = new Controls.LinkControl();
-                linkControl.InputOffset = (Vector)link.StartNode.Point;
+                var nodeWidth = link.EndNode.Control.Width;
+                var nodeHeight = link.EndNode.Control.Height;
+                linkControl.InputOffset = (Vector)link.StartNode.Point; 
                 linkControl.OutputOffset = (Vector)link.EndNode.Point;
                 link.LinkControl = linkControl;
                 MyBackCanvas.Children.Add(linkControl);
                 linkControl.UpdateEnds();
-                if (link.StartNode.Point.X < link.EndNode.Point.X)
+                if (link.StartNode.Point.X < link.EndNode.Point.X + nodeWidth)
                 {
-                    Canvas.SetLeft(linkControl, link.StartNode.Point.X);
+                    Canvas.SetLeft(linkControl, link.StartNode.Point.X + nodeWidth);
                 }
                 else
                 {
-                    Canvas.SetLeft(linkControl, link.EndNode.Point.X);
+                    Canvas.SetLeft(linkControl, link.EndNode.Point.X + nodeWidth);
                 }
 
                 linkControl.Width = Math.Abs(link.EndNode.Point.X - link.StartNode.Point.X);
 
-                if (link.StartNode.Point.Y < link.EndNode.Point.Y)
+                if (link.StartNode.Point.Y < link.EndNode.Point.Y + nodeHeight)
                 {
-                    Canvas.SetTop(linkControl, link.StartNode.Point.Y);
+                    Canvas.SetTop(linkControl, link.StartNode.Point.Y + nodeHeight);
                 }
                 else
                 {
-                    Canvas.SetTop(linkControl, link.EndNode.Point.Y);
+                    Canvas.SetTop(linkControl, link.EndNode.Point.Y + nodeHeight);
                 }
+
                 linkControl.Height = Math.Abs(link.EndNode.Point.Y - link.StartNode.Point.Y);
 
-                if ((link.EndNode.Point.X - link.StartNode.Point.X) * (link.EndNode.Point.Y - link.StartNode.Point.Y) <= 0)
+                if (((link.EndNode.Point.X + nodeWidth) - link.StartNode.Point.X) * ((link.EndNode.Point.Y + nodeHeight) - link.StartNode.Point.Y) <= 0)
                 {
                     linkControl.SetPathVisible(1);
                 }
@@ -111,7 +114,7 @@ namespace DragDropTest
                 }
 
             }
-            //UpdateLinks();
+            UpdateLinks();
         }
 
 

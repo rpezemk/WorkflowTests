@@ -77,7 +77,7 @@ namespace DragDropTest
                 var linkControl = new Controls.LinkControl();
                 var nodeWidth = link.EndNode.Control.Width;
                 var nodeHeight = link.EndNode.Control.Height;
-                linkControl.InputOffset = (Vector)link.StartNode.Point;
+                linkControl.InputOffset = (Vector)link.StartNode.Point; 
                 linkControl.OutputOffset = (Vector)link.EndNode.Point;
                 link.LinkControl = linkControl;
                 MyBackCanvas.Children.Add(linkControl);

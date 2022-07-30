@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}</ProjectGuid>
+    <ProjectGuid>{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DragDropTest</RootNamespace>
-    <AssemblyName>DragDropTest</AssemblyName>
+    <RootNamespace>TestGraphical</RootNamespace>
+    <AssemblyName>TestGraphical</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,19 +61,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Graph\MyPoint.cs" />
-    <Compile Include="Graph\Sub.cs" />
-    <Compile Include="SGraph\SLink.cs" />
-    <Compile Include="SGraph\SNode.cs" />
-    <Page Include="Controls\LinkControl.xaml">
+    <Compile Include="Controls\Converters.cs" />
+    <Compile Include="Controls\Filler.xaml.cs">
+      <DependentUpon>Filler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StepControl.xaml.cs">
+      <DependentUpon>StepControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events.cs" />
+    <Compile Include="Model\MCondition.cs" />
+    <Compile Include="Model\MOutput.cs" />
+    <Compile Include="Model\MStep.cs" />
+    <Compile Include="MouseBehaviour.cs" />
+    <Compile Include="ViewModel\VM_Main.cs" />
+    <Compile Include="ViewModel\VM_Result.cs" />
+    <Compile Include="ViewModel\VM_Step.cs" />
+    <Compile Include="View\MyContentControl.xaml.cs">
+      <DependentUpon>MyContentControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\Filler.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\StepControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DraggableControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,25 +95,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\LinkControl.xaml.cs">
-      <DependentUpon>LinkControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StepControl.xaml.cs">
-      <DependentUpon>StepControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DraggableControl.xaml.cs">
-      <DependentUpon>DraggableControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Graph\Node.cs" />
-    <Compile Include="Graph\Link.cs" />
-    <Compile Include="Graph\VisualDTO.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MyContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MySerializable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +122,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,8 +131,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="sdf\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

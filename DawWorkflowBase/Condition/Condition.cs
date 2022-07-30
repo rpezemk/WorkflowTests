@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DawWorkflowBase.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,12 @@ using System.Threading.Tasks;
 namespace DawWorkflowBase.Conditions
 {
 
-    public class Condition<TContext> where TContext: Context.IContext
+    public interface ICondition
+    {
+        bool Evaluate(IContext context);
+    }
+
+    public class Condition<TContext> : ICondition where TContext: Context.IContext
     {
         public Func<TContext, bool> Func { get; set; }
         public string Name { get; set; }
@@ -97,6 +103,24 @@ namespace DawWorkflowBase.Conditions
             return cloned;
         }
 
+        public bool Evaluate(IContext context)
+        {
+            if (IsEndPoint)
+            {
+                var res = Func.Invoke((TContext)context);
+                return res ^ IsNot;
+            }
+            else
+            {
+                var res1 = Child1.Evaluate(context);
+                var opType = Operator.GetType();
+                var isOr = opType != typeof(AND);
+                if (res1 == isOr)
+                    return isOr;
+                var res2 = Child2.Evaluate(context);
+                return res2 ^ IsNot;
+            }
+        }
     }
 
 

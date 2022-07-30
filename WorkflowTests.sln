@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawWorkflowDemo", "DawWorkf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDropTest", "DragDropTest\DragDropTest.csproj", "{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGraphical", "TestGraphical\TestGraphical.csproj", "{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

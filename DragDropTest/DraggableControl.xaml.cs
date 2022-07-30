@@ -27,8 +27,11 @@ namespace DragDropTest
 
 
         public bool IsPressed = false;
+        public bool IsDragged = false;
+        public bool IsSelected = false;
         public Vector Delta = new Vector(0, 0);
         public Action<DraggableControl> Clicked = null;
+        public Action<DraggableControl> Selected = null;
         public string Name = "";
 
         public void SetVisualOffset(Vector offset)
@@ -40,6 +43,7 @@ namespace DragDropTest
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
             IsPressed = true;
+            IsSelected = true;
             Vector mousePos = (Vector)e.GetPosition(this.Parent as IInputElement);
             Vector thisPos = this.VisualOffset;
             Delta = mousePos - thisPos;
@@ -50,17 +54,18 @@ namespace DragDropTest
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
             IsPressed = false;
+            IsDragged = false;
             Background = new SolidColorBrush(Colors.White);
 
         }
 
         private void UserControl_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (IsPressed)
-            {
-                Vector mousePos = (Vector)e.GetPosition(this.Parent as IInputElement);
-                this.VisualOffset = mousePos - Delta;
-            }
+            //if (IsPressed)
+            //{
+            //    Vector mousePos = (Vector)e.GetPosition(this.Parent as IInputElement);
+            //    this.VisualOffset = mousePos - Delta;
+            //}
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)

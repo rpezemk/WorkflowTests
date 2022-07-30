@@ -12,8 +12,8 @@ namespace DawWorkflowBase.Steps
     public interface IStep
     {
         string GetName();
-        void RunDecideAndGo(IContext context);
         void AcceptContext(IContext parentContext);
+        List<Links.ILinkInstance> GetLinks();
     }
 
 

@@ -9,69 +9,72 @@ using System.Threading.Tasks;
 namespace DawWorkflowBase.Steps
 {
 
-    public class ChoiceNode<TContext, ListArgT> : Step<TContext, ListArgT> where TContext : IContext
+    public class ChoiceNode<TContext> : AStep<TContext> where TContext : IContext
     {
-        private ListArgT obj;
+
 
 
         public IStep PassNode;
+        public IStep ErrorNode;
         public string Name { get; set; }
-        public ChoiceNode(string name = "")
+        public ChoiceNode(Action<TContext> action, string name = "")
         {
+            if(action != null)
+            {
+                Action = action;
+            }
             Name = name;
         }
 
-        public new Func<TContext, ListArgT> Delegate;
+        public Action<TContext> Action;
 
-        public void AddChildNode<TResultContext>(Condition<TContext> condition, Step<TResultContext, ListArgT> step) where TResultContext : BaseContext
+        //public void AddLink<TResultContext>(Links.Link<TContext> link, Steps.AStep<TResultContext> outStep) where TResultContext : IContext
+        //{
+        //    Links.LinkInstance<TContext, TContext> linkInstance = new Links.LinkInstance<TContext, TContext>() { InputStep = this, OutputStep = outStep };
+        //    ResultLinks.Add(linkInstance);
+        //}
+
+
+        public void AddLink<TResultContext>(Links.Link<TContext, TResultContext> link, Steps.AStep<TResultContext> outStep) where TResultContext : IContext
         {
-            BindList.Add(new FlowBind<Condition<TContext>, IStep>() { Arg = condition, Step = step });
+            Links.LinkInstance<TContext, TResultContext> linkInstance = new Links.LinkInstance<TContext, TResultContext>() { InputStep = this, OutputStep = outStep };
+            ResultLinks.Add(linkInstance);
         }
 
+        //public void AddLink<TResultContext>(Condition<TContext> condition, AStep<TResultContext> step) where TResultContext : BaseContext
+        //{
+        //    BindList.Add(new FlowBind<Condition<TContext>, IStep>() { Arg = condition, Step = step });
+        //}
 
-        public override void RunDecideAndGo(IContext context)
-        {
-            var context2 = (TContext)context;
-            obj = Delegate.Invoke(context2);
-            var sel = BindList.Where(b => b.Arg.Equals(obj));
-            bool foundMatch = false;
 
-            if (sel.Count() > 0)
-            {
-                var firstSel = sel.First();
-                if (obj.Equals(firstSel.Arg) && !foundMatch)
-                {
-                    firstSel.Step.RunDecideAndGo(context);
-                    foundMatch = true;
-                }
-            }
+        //public override void RunDecideAndGo(IContext context)
+        //{
+        //    var context2 = (TContext)context;
+        //    Action.Invoke(context2);
+        //    bool foundMatch = false;
 
-            foreach (var con in BindList)
-            {
-                var res = con.Arg.Evaluate((TContext)context);
-                if (res == true)
-                {
-                    con.Step.RunDecideAndGo(context);
-                    foundMatch = true;
-                }
-            }
+        //    foreach (var con in BindList)
+        //    {
+        //        var res = con.Arg.Evaluate((TContext)context);
+        //        if (res == true)
+        //        {
+        //            con.Step.RunDecideAndGo(context);
+        //            foundMatch = true;
+        //        }
+        //    }
 
-            if (foundMatch == false)
-            {
-                if (PassNode != null)
-                {
-                    PassNode.RunDecideAndGo(context);
-                }
-            }
+        //    if (foundMatch == false)
+        //    {
+        //        if (PassNode != null)
+        //        {
+        //            PassNode.RunDecideAndGo(context);
+        //        }
+        //    }
 
-        }
+        //}
 
 
 
-        public void AddPassNode(Step<TContext, ListArgT> node)
-        {
-            PassNode = node;
-        }
 
 
 

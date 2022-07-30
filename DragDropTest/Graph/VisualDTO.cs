@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace DragDropTest.Graph
 {
-    public class Node : MyPoint
+    public class VisualDTO
     {
-        public DraggableControl Control { get; set; }
-        public Guid Guid = Guid.NewGuid();
-        public List<Sub> Subs = new List<Sub>();
     }
-
 }

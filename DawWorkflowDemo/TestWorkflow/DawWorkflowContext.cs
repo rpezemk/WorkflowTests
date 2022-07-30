@@ -14,4 +14,13 @@ namespace DawWorkflowDemo.TestWorkflow
         public DocModels.Doc Doc = new DocModels.Doc(); 
         public DocModels.Zam Zam = new DocModels.Zam(); 
     }
+
+    public class SomeOtherContext : DawWorkflowBase.Context.BaseContext
+    {
+        public DocModels.Doc Doc = new DocModels.Doc();
+        public DocModels.Zam Zam = new DocModels.Zam();
+    }
+
+
+
 }

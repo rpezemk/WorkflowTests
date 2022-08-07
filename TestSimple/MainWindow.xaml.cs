@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,9 +29,10 @@ namespace TestSimple
 
         private void SendSomeDataButton_Click(object sender, RoutedEventArgs e)
         {
+
             DawWCFServiceRef.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFServiceRef.WorkflowTalkServiceClient();
             workflowTalkServiceClient.ClearHostMessages();
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 workflowTalkServiceClient.PutHostMessage(new DawWCFServiceRef.MyMessage());
             }
@@ -42,13 +44,18 @@ namespace TestSimple
             DawWCFServiceRef.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFServiceRef.WorkflowTalkServiceClient();
             var queue = workflowTalkServiceClient.GetViewerQueue();
             var res = new List<string>();
-            foreach(var m in queue)
+            foreach (var m in queue)
             {
                 res.Add(m.ToString());
             }
             MyTextBlock.Text = string.Join("\n", res);
             workflowTalkServiceClient.ClearViewerMessages();
             workflowTalkServiceClient.Close();
+        }
+
+        private void Host_Opened(object sender, EventArgs e)
+        {
+            
         }
 
         private void Window_Closed(object sender, EventArgs e)

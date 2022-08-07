@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DawWorkflowBase.Serializer
 {
-    public class StepSerializer
+    public class StepLister
     {
         public List<IStep> StepsSerialized = new List<IStep>();
         public List<ILinkDef> LinkDefs = new List<ILinkDef>();

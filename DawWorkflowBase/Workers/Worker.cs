@@ -14,7 +14,7 @@ namespace DawWorkflowBase.Workers
     /// </summary>
     public class Worker<TContext> where TContext : IContext
     {
-        public StepSerializer StepSerializer = new StepSerializer();
+        public StepLister StepSerializer = new StepLister();
         public List<IStep> AllSteps = new List<IStep>();
         public Workflow.AWorkflowBase<TContext> Workflow;
 

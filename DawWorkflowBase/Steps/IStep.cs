@@ -13,7 +13,12 @@ namespace DawWorkflowBase.Steps
     {
         string GetName();
         void AcceptContext(IContext parentContext);
+        bool CheckIfEndPoint();
+        void RunStep(IContext context);
+        void SetEndPoint(bool isEndPoint);
+        IContext GetContext();
         List<Links.ILinkInstance> GetLinks();
+        string ToString();
     }
 
 

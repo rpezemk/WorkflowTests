@@ -10,6 +10,10 @@ namespace TestGraphical
     {
         public static Event RefreshControlsEvt = new Event();
         public static Event<ViewModel.VM_Step> AddStepToCanvasEvt = new Event<ViewModel.VM_Step>();
+        public static Event<Controls.StepControl> ControlClicked = new Event<Controls.StepControl>();
+        public static Event<Controls.StepControl> ControlUnClicked = new Event<Controls.StepControl>();
+        public static Event<Controls.StepOutput> DeleteOutput = new Event<Controls.StepOutput>();
+        public static Event ConnectExperimental = new Event();
     }
 
     public class Event

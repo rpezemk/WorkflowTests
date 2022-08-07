@@ -10,41 +10,41 @@ using DawWorkflowBase.Steps;
 
 namespace DawWorkflowBase.Steps
 { 
-    public abstract class AStep<TContext> : StepDef<TContext>,  IStep where TContext: IContext
+    public abstract class AStep<TContext> : IStep where TContext: IContext
     {
-        public List<FlowBind<Condition<TContext>, IStep>> BindList = new List<FlowBind<Condition<TContext>, IStep>>();
-        public Guid Guid { get; set; }
+        public Guid Guid = Guid.NewGuid();
+        public bool IsEndPoint { get; set; } = false;
         public AStep()
         {
-            ResultLinks = new List<Links.ILinkInstance>();
-            Guid = Guid.NewGuid();
+
         }
+        public AStep(StepDef<TContext> stepDef) 
+        {
+            StepDef = stepDef;
+        }
+        public StepDef<TContext> StepDef { get; set; }  
+        public List<FlowBind<Condition<TContext>, IStep>> BindList = new List<FlowBind<Condition<TContext>, IStep>>();
+
+        //public AStep()
+        //{
+        //    ResultLinks = new List<Links.ILinkInstance>();
+        //    Guid = Guid.NewGuid();
+        //}
 
         //public abstract void SetHandler();
 
 
 
         private bool done = false;
+
+
         public string Name { get  ; set ; }
         public List<Links.ILinkInstance> ResultLinks { get; set; } = new List<ILinkInstance>();
-        public TContext InputContext { get; set; }
+        public TContext StepContext { get; set; }
         
         public void AcceptContext(IContext parentContext)
         {
-            InputContext = (TContext)parentContext;
-        }
-
-
-
-        public virtual void RunDecideAndGo(IContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public List<IStep> GetChildren()
-        {
-            return BindList.Select(bl => bl.Step).ToList();
+            StepContext = (TContext)parentContext;
         }
 
         public string GetName()
@@ -55,6 +55,31 @@ namespace DawWorkflowBase.Steps
         public List<ILinkInstance> GetLinks()
         {
             return ResultLinks;
+        }
+
+        public bool CheckIfEndPoint()
+        {
+            return IsEndPoint;
+        }
+
+        public void SetEndPoint(bool isEndPoint)
+        {
+            IsEndPoint = isEndPoint;
+        }
+
+        public void RunStep(IContext context)
+        {
+            StepDef.StepAction((TContext)context);
+        }
+
+        public IContext GetContext()
+        {
+            return StepContext;
+        }
+
+        public override string ToString()
+        {
+            return $"Step {Name}, {Guid}";
         }
     }
 

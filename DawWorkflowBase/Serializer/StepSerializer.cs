@@ -10,21 +10,35 @@ namespace DawWorkflowBase.Serializer
 {
     public class StepSerializer
     {
-        public List<IStep> Steps = new List<IStep>();
-        public List<ILink> Links = new List<ILink>();
+        public List<IStep> StepsSerialized = new List<IStep>();
+        public List<ILinkDef> LinkDefs = new List<ILinkDef>();
+        public List<ILinkInstance> LinkInstances = new List<ILinkInstance>();
 
         public List<IStep> CurrPath = new List<IStep>();
 
         public void SerializeStep(IStep step)
         {
-            if (!Steps.Contains(step))
+            StepsSerialized.Clear();
+            if (!StepsSerialized.Contains(step))
             {
-                Steps.Add(step);
-                foreach(var childStep in step.GetLinks().Select(l => l.GetResultStep()))
+                StepsSerialized.Add(step);
+                var children = step.GetLinks().Select(l => l.GetResultStep()).ToList();
+                if(children.Count > 0)
                 {
-                    SerializeStep(childStep);
+                    foreach (var childStep in children)
+                    {
+                        SerializeStep(childStep);
+                    }
                 }
+                else
+                {
+                    step.SetEndPoint(true);
+                }
+
             }
+            LinkDefs.Clear();
+            LinkInstances = StepsSerialized.SelectMany(s => s.GetLinks()).Distinct().ToList();
+            LinkDefs = LinkInstances.Select(li => li.GetLinkDef()).ToList();
         }
     }
 }

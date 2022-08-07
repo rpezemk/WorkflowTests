@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="DawWCFService.WorkflowTalkService" CodeBehind="Service1.svc.cs" %>

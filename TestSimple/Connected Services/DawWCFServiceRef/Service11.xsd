@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/DawWCFService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DawWCFService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:62605/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfMyMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MyMessage" nillable="true" type="tns:MyMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMyMessage" nillable="true" type="tns:ArrayOfMyMessage" />
+  <xs:complexType name="MyMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreateDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Guid" type="ser:guid" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MyMessage" nillable="true" type="tns:MyMessage" />
+</xs:schema>

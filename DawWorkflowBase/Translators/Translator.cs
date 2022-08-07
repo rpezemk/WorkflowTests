@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DawWorkflowBase.Converter
+namespace DawWorkflowBase.Translators
 {
-    public class Converter<InputContext, OutputContext> where InputContext: IContext where  OutputContext: IContext
+    public class Translator<InputContext, OutputContext> where InputContext: IContext where  OutputContext: IContext
     {
         public Func<InputContext, OutputContext> Func { get; set; }
     }

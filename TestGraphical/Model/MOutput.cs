@@ -9,6 +9,7 @@ namespace TestGraphical.Model
     public class MOutput
     {
         public string Name { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
         public Guid ParentGuid { get; set; }
         public MCondition MCondition  { get; set; }
         public MStep MStep { get; set; }

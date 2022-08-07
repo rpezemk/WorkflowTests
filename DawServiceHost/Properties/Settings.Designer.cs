@@ -22,5 +22,15 @@ namespace DawServiceHost.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:62605/Service1.svc")]
+        public string DawServiceHost_localhost_WorkflowTalkService {
+            get {
+                return ((string)(this["DawServiceHost_localhost_WorkflowTalkService"]));
+            }
+        }
     }
 }

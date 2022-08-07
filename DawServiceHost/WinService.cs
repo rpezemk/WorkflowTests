@@ -19,7 +19,7 @@ namespace DawServiceHost
     public partial class WinService : ServiceBase
     {
         AutoResetEvent wait;
-        DawWCFServiceRef.WorkflowTalkServiceClient client;
+        localhost.WorkflowTalkService service;
         public bool CancellationPending;
         public WinService()
         {
@@ -33,18 +33,18 @@ namespace DawServiceHost
             backgroundWorker1.RunWorkerAsync();
         }
 
-        protected override void OnStop()
+        protected override void OnStop() 
         {
             Log.WriteLogEntry("Service ended");
-            if (client.State != System.ServiceModel.CommunicationState.Closed)
-                client.Close();
+            //if (service.State != System.ServiceModel.CommunicationState.Closed)
+            //    service.Close();
             CancellationPending = true;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             Log.WriteLogEntry("bkgnd worker started");
-            client = new DawWCFServiceRef.WorkflowTalkServiceClient();
+            service = new localhost.WorkflowTalkService();
             Log.WriteLogEntry("WorkflowTalkServiceClient instance created");
             while (true)
             {
@@ -62,15 +62,15 @@ namespace DawServiceHost
         private void ProcessQueue()
         {
             Log.WriteLogEntry("ProcessQueue"); 
-            var queue = client.GetWorkflowHostQueue();
+            var queue = service.GetWorkflowHostQueue();
             Log.WriteLogEntry(queue.GetType().Name.ToString());
             foreach(var m in queue)
             {
-                client.PutViewerMessage(m);
-                client.RemoveMessageFromHostQueue(m);
+                service.PutViewerMessage(m);
+                service.RemoveMessageFromHostQueue(new localhost.MyMessage(), out var r1, out var r2);
                 Log.WriteLogEntry("message sent to viewer queue");
             }
-            client.ClearHostMessages();
+            service.ClearHostMessages();
 
             Log.WriteLogEntry("ProcessQueue end");
         }

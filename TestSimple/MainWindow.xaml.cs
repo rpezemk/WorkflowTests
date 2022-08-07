@@ -30,18 +30,18 @@ namespace TestSimple
         private void SendSomeDataButton_Click(object sender, RoutedEventArgs e)
         {
 
-            DawWCFServiceRef.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFServiceRef.WorkflowTalkServiceClient();
+            DawWCFService.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFService.WorkflowTalkServiceClient();
             workflowTalkServiceClient.ClearHostMessages();
             for (int i = 0; i < 10; i++)
             {
-                workflowTalkServiceClient.PutHostMessage(new DawWCFServiceRef.MyMessage());
+                workflowTalkServiceClient.PutHostMessage(new DawWCFService.MyMessage());
             }
             workflowTalkServiceClient.Close();
         }
 
         private void GetMessages_Click(object sender, RoutedEventArgs e)
         {
-            DawWCFServiceRef.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFServiceRef.WorkflowTalkServiceClient();
+            DawWCFService.WorkflowTalkServiceClient workflowTalkServiceClient = new DawWCFService.WorkflowTalkServiceClient();
             var queue = workflowTalkServiceClient.GetViewerQueue();
             var res = new List<string>();
             foreach (var m in queue)

@@ -83,10 +83,10 @@
     <None Include="Connected Services\DawWCFServiceRef\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\Service12.xsd">
+    <None Include="Connected Services\DawWCFServiceRef\Service11.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\Service13.xsd">
+    <None Include="Connected Services\DawWCFServiceRef\Service12.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\DawWCFServiceRef\WorkflowTalkService.wsdl" />

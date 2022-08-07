@@ -16,16 +16,19 @@ namespace DawWCFService
     {
         public List<MyMessage> GetViewerQueue()
         {
+            Log.WriteLogEntry("GetViewerQueue");
             return Data.ViewerMessages;
         }
 
         public List<MyMessage> GetWorkflowHostQueue()
         {
+            Log.WriteLogEntry("GetWorkflowHostQueue");
             return Data.HostMessages;
         }
 
         public bool RemoveMessageFromHostQueue(MyMessage message)
         {
+            Log.WriteLogEntry("RemoveMessageFromHostQueue");
             var contains = Data.HostMessages.Where(m => m.Guid == message.Guid).Any();
             if (contains)
             {
@@ -36,6 +39,7 @@ namespace DawWCFService
 
         public bool RemoveMessageFromViewerQueue(MyMessage message)
         {
+            Log.WriteLogEntry("RemoveMessageFromViewerQueue");
             var contains = Data.ViewerMessages.Where(m => m.Guid == message.Guid).Any();
             if (contains)
             {
@@ -46,21 +50,25 @@ namespace DawWCFService
 
         public void PutHostMessage(MyMessage message)
         {
+            Log.WriteLogEntry("PutHostMessage");
             Data.HostMessages.Add(message);
         }
          
         public void PutViewerMessage(MyMessage message)
         {
+            Log.WriteLogEntry("PutViewerMessage");
             Data.ViewerMessages.Add(message);
         }
 
         public void ClearViewerMessages()
         {
+            Log.WriteLogEntry("ClearViewerMessages");
             Data.ViewerMessages.Clear();
         }
 
         public void ClearHostMessages()
         {
+            Log.WriteLogEntry("ClearHostMessages");
             Data.HostMessages.Clear();
         }
     }

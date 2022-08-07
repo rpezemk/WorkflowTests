@@ -58,6 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\DawWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TestService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -66,11 +71,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connected Services\DawWCFServiceRef\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ITestService.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -96,19 +96,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\DawWCFServiceRef\Service1.xsd">
+    <None Include="Connected Services\DawWCFService\Service13.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\Service11.xsd">
+    <None Include="Connected Services\DawWCFService\Service131.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\Service12.xsd">
+    <None Include="Connected Services\DawWCFService\Service132.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\TestSimple.DawWCFServiceRef.MyMessage.datasource">
+    <None Include="Connected Services\DawWCFService\TestSimple.DawWCFService.MyMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\DawWCFServiceRef\WorkflowTalkService.wsdl" />
+    <None Include="Connected Services\DawWCFService\WorkflowTalkService1.wsdl" />
     <None Include="Properties\DataSources\DawWorkflowBase.WCF.MessageQueue.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -122,28 +122,28 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\DawWCFServiceRef\" />
+    <ProjectReference Include="..\DawWorkflowBase\DawWorkflowBase.csproj">
+      <Project>{8de85581-9d93-43e0-8466-e26eb618d00f}</Project>
+      <Name>DawWorkflowBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\DawWCFServiceRef\Service1.disco" />
+    <WCFMetadataStorage Include="Connected Services\DawWCFService\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\DawWCFServiceRef\configuration91.svcinfo" />
+    <None Include="Connected Services\DawWCFService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\DawWCFServiceRef\configuration.svcinfo" />
+    <None Include="Connected Services\DawWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\DawWCFServiceRef\Reference.svcmap">
+    <None Include="Connected Services\DawWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DawWorkflowBase\DawWorkflowBase.csproj">
-      <Project>{8de85581-9d93-43e0-8466-e26eb618d00f}</Project>
-      <Name>DawWorkflowBase</Name>
-    </ProjectReference>
+    <None Include="Connected Services\DawWCFService\Service11.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

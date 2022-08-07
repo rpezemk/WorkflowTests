@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestSimple.DawWCFServiceRef {
+namespace TestDuplex.ServiceReference1 {
     using System.Runtime.Serialization;
     using System;
     
@@ -91,44 +91,44 @@ namespace TestSimple.DawWCFServiceRef {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="DawWCFServiceRef.IWorkflowTalkService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IWorkflowTalkService")]
     public interface IWorkflowTalkService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/GetWorkflowHostQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/GetWorkflowHostQueueResponse")]
-        TestSimple.DawWCFServiceRef.MyMessage[] GetWorkflowHostQueue();
+        TestDuplex.ServiceReference1.MyMessage[] GetWorkflowHostQueue();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/GetWorkflowHostQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/GetWorkflowHostQueueResponse")]
-        System.Threading.Tasks.Task<TestSimple.DawWCFServiceRef.MyMessage[]> GetWorkflowHostQueueAsync();
+        System.Threading.Tasks.Task<TestDuplex.ServiceReference1.MyMessage[]> GetWorkflowHostQueueAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/GetViewerQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/GetViewerQueueResponse")]
-        TestSimple.DawWCFServiceRef.MyMessage[] GetViewerQueue();
+        TestDuplex.ServiceReference1.MyMessage[] GetViewerQueue();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/GetViewerQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/GetViewerQueueResponse")]
-        System.Threading.Tasks.Task<TestSimple.DawWCFServiceRef.MyMessage[]> GetViewerQueueAsync();
+        System.Threading.Tasks.Task<TestDuplex.ServiceReference1.MyMessage[]> GetViewerQueueAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/PutHostMessage", ReplyAction="http://tempuri.org/IWorkflowTalkService/PutHostMessageResponse")]
-        void PutHostMessage(TestSimple.DawWCFServiceRef.MyMessage message);
+        void PutHostMessage(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/PutHostMessage", ReplyAction="http://tempuri.org/IWorkflowTalkService/PutHostMessageResponse")]
-        System.Threading.Tasks.Task PutHostMessageAsync(TestSimple.DawWCFServiceRef.MyMessage message);
+        System.Threading.Tasks.Task PutHostMessageAsync(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/PutViewerMessage", ReplyAction="http://tempuri.org/IWorkflowTalkService/PutViewerMessageResponse")]
-        void PutViewerMessage(TestSimple.DawWCFServiceRef.MyMessage message);
+        void PutViewerMessage(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/PutViewerMessage", ReplyAction="http://tempuri.org/IWorkflowTalkService/PutViewerMessageResponse")]
-        System.Threading.Tasks.Task PutViewerMessageAsync(TestSimple.DawWCFServiceRef.MyMessage message);
+        System.Threading.Tasks.Task PutViewerMessageAsync(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromViewerQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromViewerQueueResponse")]
-        bool RemoveMessageFromViewerQueue(TestSimple.DawWCFServiceRef.MyMessage message);
+        bool RemoveMessageFromViewerQueue(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromViewerQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromViewerQueueResponse")]
-        System.Threading.Tasks.Task<bool> RemoveMessageFromViewerQueueAsync(TestSimple.DawWCFServiceRef.MyMessage message);
+        System.Threading.Tasks.Task<bool> RemoveMessageFromViewerQueueAsync(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromHostQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromHostQueueResponse")]
-        bool RemoveMessageFromHostQueue(TestSimple.DawWCFServiceRef.MyMessage message);
+        bool RemoveMessageFromHostQueue(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromHostQueue", ReplyAction="http://tempuri.org/IWorkflowTalkService/RemoveMessageFromHostQueueResponse")]
-        System.Threading.Tasks.Task<bool> RemoveMessageFromHostQueueAsync(TestSimple.DawWCFServiceRef.MyMessage message);
+        System.Threading.Tasks.Task<bool> RemoveMessageFromHostQueueAsync(TestDuplex.ServiceReference1.MyMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWorkflowTalkService/ClearViewerMessages", ReplyAction="http://tempuri.org/IWorkflowTalkService/ClearViewerMessagesResponse")]
         void ClearViewerMessages();
@@ -144,12 +144,12 @@ namespace TestSimple.DawWCFServiceRef {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IWorkflowTalkServiceChannel : TestSimple.DawWCFServiceRef.IWorkflowTalkService, System.ServiceModel.IClientChannel {
+    public interface IWorkflowTalkServiceChannel : TestDuplex.ServiceReference1.IWorkflowTalkService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class WorkflowTalkServiceClient : System.ServiceModel.ClientBase<TestSimple.DawWCFServiceRef.IWorkflowTalkService>, TestSimple.DawWCFServiceRef.IWorkflowTalkService {
+    public partial class WorkflowTalkServiceClient : System.ServiceModel.ClientBase<TestDuplex.ServiceReference1.IWorkflowTalkService>, TestDuplex.ServiceReference1.IWorkflowTalkService {
         
         public WorkflowTalkServiceClient() {
         }
@@ -170,51 +170,51 @@ namespace TestSimple.DawWCFServiceRef {
                 base(binding, remoteAddress) {
         }
         
-        public TestSimple.DawWCFServiceRef.MyMessage[] GetWorkflowHostQueue() {
+        public TestDuplex.ServiceReference1.MyMessage[] GetWorkflowHostQueue() {
             return base.Channel.GetWorkflowHostQueue();
         }
         
-        public System.Threading.Tasks.Task<TestSimple.DawWCFServiceRef.MyMessage[]> GetWorkflowHostQueueAsync() {
+        public System.Threading.Tasks.Task<TestDuplex.ServiceReference1.MyMessage[]> GetWorkflowHostQueueAsync() {
             return base.Channel.GetWorkflowHostQueueAsync();
         }
         
-        public TestSimple.DawWCFServiceRef.MyMessage[] GetViewerQueue() {
+        public TestDuplex.ServiceReference1.MyMessage[] GetViewerQueue() {
             return base.Channel.GetViewerQueue();
         }
         
-        public System.Threading.Tasks.Task<TestSimple.DawWCFServiceRef.MyMessage[]> GetViewerQueueAsync() {
+        public System.Threading.Tasks.Task<TestDuplex.ServiceReference1.MyMessage[]> GetViewerQueueAsync() {
             return base.Channel.GetViewerQueueAsync();
         }
         
-        public void PutHostMessage(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public void PutHostMessage(TestDuplex.ServiceReference1.MyMessage message) {
             base.Channel.PutHostMessage(message);
         }
         
-        public System.Threading.Tasks.Task PutHostMessageAsync(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public System.Threading.Tasks.Task PutHostMessageAsync(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.PutHostMessageAsync(message);
         }
         
-        public void PutViewerMessage(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public void PutViewerMessage(TestDuplex.ServiceReference1.MyMessage message) {
             base.Channel.PutViewerMessage(message);
         }
         
-        public System.Threading.Tasks.Task PutViewerMessageAsync(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public System.Threading.Tasks.Task PutViewerMessageAsync(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.PutViewerMessageAsync(message);
         }
         
-        public bool RemoveMessageFromViewerQueue(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public bool RemoveMessageFromViewerQueue(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.RemoveMessageFromViewerQueue(message);
         }
         
-        public System.Threading.Tasks.Task<bool> RemoveMessageFromViewerQueueAsync(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public System.Threading.Tasks.Task<bool> RemoveMessageFromViewerQueueAsync(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.RemoveMessageFromViewerQueueAsync(message);
         }
         
-        public bool RemoveMessageFromHostQueue(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public bool RemoveMessageFromHostQueue(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.RemoveMessageFromHostQueue(message);
         }
         
-        public System.Threading.Tasks.Task<bool> RemoveMessageFromHostQueueAsync(TestSimple.DawWCFServiceRef.MyMessage message) {
+        public System.Threading.Tasks.Task<bool> RemoveMessageFromHostQueueAsync(TestDuplex.ServiceReference1.MyMessage message) {
             return base.Channel.RemoveMessageFromHostQueueAsync(message);
         }
         

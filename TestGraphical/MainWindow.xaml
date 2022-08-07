@@ -42,10 +42,21 @@
             </Grid.ColumnDefinitions>
             <view:MyContentControl
                 ItemsSource="{Binding StepVMs, Mode=OneWay}"/>
-            <StackPanel Grid.Column="1">
-                <Button Content="Dodaj krok" Command="{Binding AddControlCmd}"/>
-                <Button Content="Usuń krok" Command="{Binding AddControlCmd}"/>
-            </StackPanel>
+            <Grid Grid.Column ="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <Button Content="Dodaj krok" Command="{Binding AddControlCmd}"/>
+                    <Button Content="Usuń krok" Command="{Binding AddControlCmd}"/>
+                    <Button Content="Połącz" Command="{Binding ConnectExperimentalCmd}"/>
+                </StackPanel>
+                <view:AvailableStepsView Grid.Row="1">
+                    
+                </view:AvailableStepsView>
+            </Grid>
+            
         </Grid>
         <!--<ItemsControl ItemsSource="{Binding sdf}" Grid.Row="1" Background="Transparent">
             <i:Interaction.Behaviors>

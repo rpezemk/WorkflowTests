@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using TestGraphical.Model;
 
 namespace TestGraphical.ViewModel
 {
@@ -34,6 +36,14 @@ namespace TestGraphical.ViewModel
             get { return name; }
             set { SetProperty(ref name, value); }
         }
+
+        private ObservableCollection<MLink> mLinks;
+        public ObservableCollection<MLink> MLinks
+        {
+            get { return mLinks; }
+            set { SetProperty(ref mLinks, value); }
+        }
+
 
 
     }

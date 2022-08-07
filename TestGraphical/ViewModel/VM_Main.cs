@@ -17,8 +17,16 @@ namespace TestGraphical.ViewModel
         private DelegateCommand deselectAllCmd;
         private DelegateCommand saveAllCmd;
         private DelegateCommand loadWorkflowCmd;
-
         private DelegateCommand addControlCmd;
+
+        private DelegateCommand connectExperimentalCmd;
+        public DelegateCommand ConnectExperimentalCmd =>
+            connectExperimentalCmd ?? (connectExperimentalCmd = new DelegateCommand(ExecuteConnectExperimentalCmd));
+
+        void ExecuteConnectExperimentalCmd()
+        {
+            Events.ConnectExperimental.Publish();
+        }
 
 
         private string statusText;

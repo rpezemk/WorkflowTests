@@ -7,8 +7,34 @@ using System.Threading.Tasks;
 
 namespace DawWorkflowBase.Steps
 {
-    public class StepDef<TContext> where TContext : IContext
+    public class StepDef<TContext> : IStepDef where TContext : IContext
     {
-        public Action<TContext> Delegate { get; set; }
+        public StepDef()
+        {
+
+        }
+
+        public StepDef(Action<TContext> action, string name)
+        {
+            StepAction = action;
+            Name = name;
+        }
+        public Action<TContext> StepAction { get; set; }
+        public String Name { get; set; }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public Type GetStepType()
+        {
+            return typeof(TContext);
+        }
+
+        public void SetAction(object action)
+        {
+            StepAction = (Action<TContext>)action;
+        }
     }
 }

@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace DawWorkflowBase.Context
 {
-    public class BaseContext : IContext
-    {
 
-    }
 }

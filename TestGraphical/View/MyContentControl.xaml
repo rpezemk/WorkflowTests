@@ -12,8 +12,11 @@
              xmlns:ctrl="clr-namespace:TestGraphical.Controls"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Canvas x:Name="BackCanvas" Background="AliceBlue" MouseDown="MyCanvas_MouseDown" >
-            <i:Interaction.Behaviors>
+        <Canvas x:Name="BackCanvas" 
+                Background="AliceBlue" MouseDown="MyCanvas_MouseDown" 
+                MouseUp="BackCanvas_MouseUp" MouseMove="BackCanvas_MouseMove"
+                PreviewMouseMove="BackCanvas_PreviewMouseMove">
+            <!--<i:Interaction.Behaviors>
                 <main:MouseBehaviour 
                 MouseX="{Binding MouseX, Mode=OneWayToSource, ElementName=MyContentControlWindow}"
                 MouseY="{Binding MouseY, Mode=OneWayToSource, ElementName=MyContentControlWindow}"
@@ -26,7 +29,7 @@
                 <i:EventTrigger EventName="MouseUp">
                     <i:InvokeCommandAction Command="{Binding CanvasUnclickedCmd, ElementName=MyContentControlWindow}"/>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
         </Canvas>
         <Canvas x:Name="MyCanvas"  >
             

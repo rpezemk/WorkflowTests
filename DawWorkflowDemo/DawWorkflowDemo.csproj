@@ -52,7 +52,7 @@
     <Compile Include="DocModels\Zam.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestWorkflow\DawWorkflowContext.cs" />
+    <Compile Include="TestWorkflow\DawContext.cs" />
     <Compile Include="TestWorkflow\MyWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>

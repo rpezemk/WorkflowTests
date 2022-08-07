@@ -13,14 +13,17 @@ namespace DawWorkflowBase.Steps
 
         public IStep PassNode;
         public string Name { get; set; }
-        public SequenceNode(string name = "")
+
+
+
+        public SequenceNode(StepDef<TContext> stepDef) : base(stepDef)
         {
-            Name = name;
+            
         }
 
         public new Func<TContext, TContext> Delegate;
 
-        public void AddChildNode<TResultContext>(Condition<TContext> condition, AStep<TResultContext> step) where TResultContext : BaseContext
+        public void AddChildNode<TResultContext>(Condition<TContext> condition, AStep<TResultContext> step) where TResultContext : IContext
         {
             BindList.Add(new FlowBind<Condition<TContext>, IStep>() { Arg = condition, Step = step });
         }

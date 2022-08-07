@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Prism.Commands;
+using TestGraphical.Controls;
 using TestGraphical.ViewModel;
 
 namespace TestGraphical.View
@@ -26,19 +27,132 @@ namespace TestGraphical.View
         public MyContentControl()
         {
             InitializeComponent();
-            Events.AddStepToCanvasEvt.Subscribe(TestABC);
-            Events.RefreshControlsEvt.Subscribe(TestSub);
+            Events.AddStepToCanvasEvt.Subscribe(AddControl);
+            Events.RefreshControlsEvt.Subscribe(RefreshControl);
+            Events.ControlClicked.Subscribe(ChildControlClicked);
+            Events.ConnectExperimental.Subscribe(ConnectExperimental);
         }
+
+
+
+
+        private void ConnectExperimental()
+        {
+            Point GetPoint(UIElement e) => e.TransformToAncestor(MyCanvas).Transform(new Point(0, 0));
+            var xs = MyCanvas.Children.OfType<StepControl>().ToList();
+            var res = xs.Select(s => (s, xs.Where(s1 => s1 != s))).SelectMany(t => t.Item2.Select(a => (t.s, a)))
+                .SelectMany(t => t.a.OutputsPanel.Children.OfType<StepOutput>().Select(o => (t.s, o))).Select(p => (GetPoint(p.s), GetPoint(p.o)))
+                .Select(pair => new Line() { X1 = pair.Item1.X, Y1 = pair.Item1.Y, X2 = pair.Item2.X, Y2 = pair.Item2.Y }).ToList();
+
+            BackCanvas.Children.Clear();            
+            foreach (var l in res)
+            {
+                l.StrokeThickness = 2;
+                l.Stroke = new SolidColorBrush(Colors.Black);
+                BackCanvas.Children.Add(l);
+            }
+
+        }
+
+        Point lastClickPos;
+        Point mousePos;
+        private bool isDragMode = true;
+        private bool isControlClicked = false;
+        StepControl SelectedControl = null;
+
+        private void ChildControlClicked(StepControl obj)
+        {
+            SelectedControl = obj;
+            UpdateZInexesByLastCtrl(obj);
+            isControlClicked = true;
+            lastClickPos = (Point)((Vector)obj.TransformToAncestor(MyCanvas).Transform(new Point(0, 0)) + (Vector)obj.ClickPos);
+        }
+
+
+        private void CanvasClicked()
+        {
+            isControlClicked = false;
+            isDragMode = false;
+        }
+
+        void CanvasUnclicked()
+        {
+            isControlClicked = true;
+            isDragMode = false;
+            if (SelectedControl != null)
+            {
+                SelectedControl.IsClicked = false;
+            }
+        }
+
+        private void BackCanvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isControlClicked = true;
+            if(SelectedControl != null)
+            {
+                SelectedControl.IsClicked = false;
+            }
+            isDragMode = false;
+        }
+        private void BackCanvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            mousePos = e.GetPosition(MyCanvas);
+            if (isControlClicked && e.LeftButton == MouseButtonState.Pressed)
+            {
+                var a = mousePos - lastClickPos;
+                if (Math.Abs(a.X) > 40 || Math.Abs(a.Y) > 40)
+                {
+                    isDragMode = true;
+                }
+                if (isDragMode)
+                {
+                    if (SelectedControl != null)
+                    {
+                        SelectedControl.SetPosition(mousePos);
+                    }
+                }
+            }
+        }
+
+
+        private void UpdateZInexesByLastCtrl(StepControl obj)
+        {
+            List<UIElement> ctrlList = new List<UIElement>();
+            foreach (UIElement ctl in MyCanvas.Children)
+            {
+                ctrlList.Add(ctl);
+            }
+            var newZIndex = ctrlList.Select(ctl => Panel.GetZIndex(ctl)).Max() + 1;
+
+            Panel.SetZIndex(obj, newZIndex);
+
+            List<UIElement> ctrlList2 = new List<UIElement>();
+            foreach (UIElement ctl in MyCanvas.Children)
+            {
+                ctrlList2.Add(ctl);
+            }
+
+            var ordered = ctrlList2.OrderBy(ctl => Panel.GetZIndex(ctl));
+            var counter = 0;
+            foreach(var ctl in ordered)
+            {
+                Panel.SetZIndex(ctl, counter);
+                counter++;                
+            }
+        }
+
         private int counter = 0;
-        private void TestABC(VM_Step vm_step)
+        private void AddControl(VM_Step vm_step)
         {
             Controls.StepControl stepControl = new Controls.StepControl();
             vm_step.XOffset = counter;
             vm_step.YOffset = counter;
+            vm_step.Name = $"name {counter}";
             counter += 10;
             stepControl.DataContext = vm_step;
             stepControl.VisualGuid = vm_step.VisualGuid;
             MyCanvas.Children.Add(stepControl);
+            UpdateZInexesByLastCtrl(stepControl);
         }
 
         private DelegateCommand canvasClickedCmd;
@@ -50,14 +164,6 @@ namespace TestGraphical.View
         public DelegateCommand CanvasUnclickedCmd =>
             canvasUnclickedCmd ?? (canvasUnclickedCmd = new DelegateCommand(CanvasUnclicked));
 
-        private void CanvasClicked()
-        {
-
-        }
-        void CanvasUnclicked()
-        {
-
-        }
 
 
 
@@ -97,15 +203,12 @@ namespace TestGraphical.View
 
 
 
-        private void TestSub()
+        private void RefreshControl()
         {
 
         }
 
-        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            
-        }
+
 
         public IEnumerable<object> ItemsSource
         {
@@ -124,8 +227,9 @@ namespace TestGraphical.View
 
         private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+            mousePos = e.GetPosition(MyCanvas as IInputElement);
         }
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -136,5 +240,14 @@ namespace TestGraphical.View
         {
 
         }
+
+
+
+        private void BackCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+
     }
 }

@@ -33,18 +33,15 @@ namespace DawServiceHost
             backgroundWorker1.RunWorkerAsync();
         }
 
-        protected override void OnStop() 
+        protected override void OnStop()
         {
             Log.WriteLogEntry("Service ended");
-            //if (service.State != System.ServiceModel.CommunicationState.Closed)
-            //    service.Close();
             CancellationPending = true;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             Log.WriteLogEntry("bkgnd worker started");
-            service = new localhost.WorkflowTalkService();
             Log.WriteLogEntry("WorkflowTalkServiceClient instance created");
             while (true)
             {
@@ -67,7 +64,7 @@ namespace DawServiceHost
             foreach(var m in queue)
             {
                 service.PutViewerMessage(m);
-                service.RemoveMessageFromHostQueue(new localhost.MyMessage(), out var r1, out var r2);
+                service.RemoveMessageFromHostQueue(m, out var r1, out var r2);
                 Log.WriteLogEntry("message sent to viewer queue");
             }
             service.ClearHostMessages();

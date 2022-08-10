@@ -40,9 +40,12 @@ namespace TestGraphical.View
         {
             Point GetPoint(UIElement e) => e.TransformToAncestor(MyCanvas).Transform(new Point(0, 0));
             var xs = MyCanvas.Children.OfType<StepControl>().ToList();
+            var width = 50.0;
+            if (xs.Count > 0)
+                width = xs[0].ActualWidth;
             var res = xs.Select(s => (s, xs.Where(s1 => s1 != s))).SelectMany(t => t.Item2.Select(a => (t.s, a)))
                 .SelectMany(t => t.a.OutputsPanel.Children.OfType<StepOutput>().Select(o => (t.s, o))).Select(p => (GetPoint(p.s), GetPoint(p.o)))
-                .Select(pair => new Line() { X1 = pair.Item1.X, Y1 = pair.Item1.Y, X2 = pair.Item2.X, Y2 = pair.Item2.Y }).ToList();
+                .Select(pair => new Line() { X1 = pair.Item1.X, Y1 = pair.Item1.Y, X2 = pair.Item2.X + width, Y2 = pair.Item2.Y + 9 }).ToList();
 
             BackCanvas.Children.Clear();            
             foreach (var l in res)

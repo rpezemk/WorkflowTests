@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Duplex", "Duplex", "{B0E94F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDuplex", "TestDuplex\TestDuplex.csproj", "{EDDBDC59-15B5-4A69-9796-7A9E3143CF21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGraphical", "TestGraphical\TestGraphical.csproj", "{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{EDDBDC59-15B5-4A69-9796-7A9E3143CF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDDBDC59-15B5-4A69-9796-7A9E3143CF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDDBDC59-15B5-4A69-9796-7A9E3143CF21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

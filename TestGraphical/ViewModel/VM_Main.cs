@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using TestGraphical.Model;
+using System.Net;
+using System.Net.Sockets;
 
 namespace TestGraphical.ViewModel
 {
@@ -18,22 +21,41 @@ namespace TestGraphical.ViewModel
         private DelegateCommand saveAllCmd;
         private DelegateCommand loadWorkflowCmd;
         private DelegateCommand addControlCmd;
+        private DelegateCommand testingCmd;
 
         private DelegateCommand connectExperimentalCmd;
         public DelegateCommand ConnectExperimentalCmd =>
             connectExperimentalCmd ?? (connectExperimentalCmd = new DelegateCommand(ExecuteConnectExperimentalCmd));
+        private DelegateCommand loadExampleCmd;
+        public DelegateCommand LoadExampleCmd =>
+            loadExampleCmd ?? (loadExampleCmd = new DelegateCommand(LoadExample));
+        public DelegateCommand TestingCmd => testingCmd ?? (testingCmd = new DelegateCommand(TestingFunc));
+
+        private void TestingFunc()
+        {
+            
+        }
 
         void ExecuteConnectExperimentalCmd()
         {
-            Events.ConnectExperimental.Publish();
+            Events.RefreshLinesEvent.Publish();
         }
 
+        //LoadExampleCmd
+
+        void LoadExample()
+        {
+            MWorkflow mWorkflow = new MWorkflow();
+            mWorkflow.SetMyWorkflowSomehow();
+            VM_Workflow.Workflow = mWorkflow;
+            VM_Workflow.StepVMs = new ObservableCollection<VM_Step>(mWorkflow.Steps.Select(ms => new VM_Step(ms)).ToList());
+            Events.RefreshWorkflow.Publish();
+        }
 
         private string statusText;
         private double mouseX;
         private double mouseY;
-        private bool controlClicked = false;
-        private ObservableCollection<VM_Step> stepVMs = new ObservableCollection<VM_Step>();
+
         
 
         public DelegateCommand SaveWorkflowCmd =>
@@ -57,10 +79,7 @@ namespace TestGraphical.ViewModel
 
         public VM_Main()
         {
-            stepVMs = new ObservableCollection<VM_Step>();
-            StepVMs.Add(new VM_Step());
-            StepVMs.Add(new VM_Step());
-            StepVMs.Add(new VM_Step());
+
         }
 
 
@@ -73,36 +92,21 @@ namespace TestGraphical.ViewModel
             // 
             // code for canvas clicking
             //
-            controlClicked = false;
+
         }
         void AddControl()
         {
             var vm = new VM_Step();
-            StepVMs.Add(vm);
+            VM_Workflow.StepVMs.Add(vm);
             Events.AddStepToCanvasEvt.Publish(vm);
         }
 
-        public ObservableCollection<VM_Step> StepVMs
-        {
-            get { return stepVMs; }
-            set { SetProperty(ref stepVMs, value); }
-        }
-        public string StatusText
-        {
-            get { return statusText; }
-            set { SetProperty(ref statusText, value); }
-        }
+        private VM_Workflow vm_workflow = new VM_Workflow();
 
-        public double MouseX
+        public VM_Workflow VM_Workflow
         {
-            get { return mouseX; }
-            set { SetProperty(ref mouseX, value); }
-        }
-
-        public double MouseY
-        {
-            get { return mouseY; }
-            set { SetProperty(ref mouseY, value); }
+            get { return vm_workflow; }
+            set { SetProperty(ref vm_workflow, value); }
         }
 
     }

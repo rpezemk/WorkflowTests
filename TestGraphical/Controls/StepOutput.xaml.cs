@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestGraphical.Model;
 
 namespace TestGraphical.Controls
 {
@@ -25,11 +26,19 @@ namespace TestGraphical.Controls
         {
             InitializeComponent();
         }
-
+        public MLink MLink;
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Events.DeleteOutput.Publish(this);
         }
+
+
+
+        public Point GetOutputPoint()
+        {
+            return (this as UIElement).TransformToAncestor(this.GetUIEOfType(typeof(View.MyContentControl))).Transform(new Point(ActualWidth, 0));
+        }
+
     }
 }

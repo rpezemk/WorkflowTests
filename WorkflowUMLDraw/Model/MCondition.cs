@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestGraphical.Model
+namespace WorkflowUMLDraw.Model
 {
     public class MCondition
     {

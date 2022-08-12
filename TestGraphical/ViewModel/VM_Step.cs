@@ -37,7 +37,20 @@ namespace TestGraphical.ViewModel
             set { SetProperty(ref name, value); }
         }
 
+
         private ObservableCollection<MLink> mLinks;
+
+        public VM_Step(MStep ms)
+        {
+            MStep = ms;
+            Name = ms.Name;
+        }
+
+        public VM_Step()
+        {
+
+        }
+
         public ObservableCollection<MLink> MLinks
         {
             get { return mLinks; }
@@ -45,6 +58,14 @@ namespace TestGraphical.ViewModel
         }
 
 
+
+        private MStep mStep;
+
+        public MStep MStep
+        {
+            get { return mStep; }
+            set { SetProperty(ref mStep, value); }
+        }
 
     }
 }

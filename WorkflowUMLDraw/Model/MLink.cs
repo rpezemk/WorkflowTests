@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestGraphical.Model
+namespace WorkflowUMLDraw.Model
 {
     public class MLink
     {
-        //private MStep root;
-        //private MCondition cond1;
-        //private MStep step2;
+        private MStep root;
+        private MCondition cond1;
+        private MStep step2;
 
         public MLink(MStep root, MCondition cond1, MStep step2)
         {
-            this.InputStep = root;
-            this.Condition = cond1;
-            this.OutputStep = step2;
+            this.root = root;
+            this.cond1 = cond1;
+            this.step2 = step2;
         }
 
         public MStep InputStep { get; set; }

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}</ProjectGuid>
+    <ProjectGuid>{AB890AB3-868D-410E-AFC5-EA723DEFA66D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TestGraphical</RootNamespace>
-    <AssemblyName>TestGraphical</AssemblyName>
+    <RootNamespace>WorkflowUMLDraw</RootNamespace>
+    <AssemblyName>WorkflowUMLDraw</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,12 +36,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Prism.Wpf, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,42 +65,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\ObjectArrow.cs" />
-    <Compile Include="Controls\Converters.cs" />
-    <Compile Include="Controls\Filler.xaml.cs">
-      <DependentUpon>Filler.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StepControl.xaml.cs">
-      <DependentUpon>StepControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StepOutput.xaml.cs">
-      <DependentUpon>StepOutput.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Events.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Model\MCondition.cs" />
-    <Compile Include="Model\MLink.cs" />
-    <Compile Include="Model\MStep.cs" />
-    <Compile Include="Model\MWorkflow.cs" />
-    <Compile Include="MouseBehaviour.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventGeneric.cs" />
+    <Compile Include="Events\GlobalEvents.cs" />
+    <Compile Include="Solver\ACell.cs" />
+    <Compile Include="Solver\BlankCell.cs" />
+    <Compile Include="Solver\CellCollection.cs" />
+    <Compile Include="Solver\DiagramSolver.cs" />
+    <Compile Include="Solver\Workspace.cs" />
     <Compile Include="ViewModel\VM_Main.cs" />
-    <Compile Include="ViewModel\VM_Step.cs" />
     <Compile Include="ViewModel\VM_Workflow.cs" />
-    <Compile Include="View\AvailableStepsView.xaml.cs">
-      <DependentUpon>AvailableStepsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MyContentControl.xaml.cs">
-      <DependentUpon>MyContentControl.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Controls\Filler.xaml">
+    <Page Include="Controls\ConditionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ContentCanvas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\StepControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\StepOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,20 +95,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\ConditionControl.xaml.cs">
+      <DependentUpon>ConditionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContentCanvas.xaml.cs">
+      <DependentUpon>ContentCanvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StepControl.xaml.cs">
+      <DependentUpon>StepControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\AvailableStepsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MyContentControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\MCondition.cs" />
+    <Compile Include="Model\MLink.cs" />
+    <Compile Include="Model\MStep.cs" />
+    <Compile Include="Model\MWorkflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -149,10 +141,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DawWorkflowBase\DawWorkflowBase.csproj">
-      <Project>{8DE85581-9D93-43E0-8466-E26EB618D00F}</Project>
-      <Name>DawWorkflowBase</Name>
-    </ProjectReference>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

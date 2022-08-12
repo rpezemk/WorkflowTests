@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestGraphical.Model;
 
 namespace TestGraphical.Controls
 {
@@ -22,6 +23,9 @@ namespace TestGraphical.Controls
     {
         public Point MousePos;
 
+        public List<MLink> MLinkOutputs { get; set; } = new List<MLink>();
+
+        public MStep MStep { get; set; }
         public Guid VisualGuid { get; set; }
         public Point ClickPos { get; set; }
         public bool IsClicked { get; set; }
@@ -30,6 +34,7 @@ namespace TestGraphical.Controls
             this.Margin = new Thickness(p.X, p.Y, 0, 0);
             //this.VisualOffset = (Vector)p;
         }
+
 
         public StepControl()
         {
@@ -53,6 +58,7 @@ namespace TestGraphical.Controls
             IsClicked = true;
             ClickPos = e.GetPosition(this as IInputElement);
             Events.ControlClicked.Publish(sender as StepControl);
+            
         }
 
         private void MyStepControl_MouseUp(object sender, MouseButtonEventArgs e)
@@ -68,7 +74,7 @@ namespace TestGraphical.Controls
             {
                 MousePos = e.GetPosition(this.Parent as UIElement);
                 this.Margin = new Thickness(MousePos.X - ClickPos.X, MousePos.Y - ClickPos.Y, 0, 0);
-                Events.ConnectExperimental.Publish();
+                Events.RefreshLinesEvent.Publish();
                 //this.VisualOffset = MousePos - ClickPos;
             }
         }
@@ -83,5 +89,11 @@ namespace TestGraphical.Controls
         {
 
         }
+
+        public Point GetOutputPoint()
+        {
+            return (this as UIElement).TransformToAncestor(this.GetUIEOfType(typeof(View.MyContentControl))).Transform(new Point(0, 0));
+        }
+
     }
 }

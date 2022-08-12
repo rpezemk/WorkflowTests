@@ -10,30 +10,24 @@
              xmlns:main="clr-namespace:TestGraphical"
              xmlns:view="clr-namespace:TestGraphical.View"
              xmlns:ctrl="clr-namespace:TestGraphical.Controls"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Canvas x:Name="BackCanvas" 
-                Background="AliceBlue" MouseDown="MyCanvas_MouseDown" 
+             d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding VM_Workflow}">
+        
+    <Grid Background="Pink">
+        <TextBlock Text="TO JEST TEST WYŚWIETLANIA TYLKO" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Aquamarine"/>
+
+        <Grid x:Name="MyContentGrid">
+
+            <Canvas x:Name="BackCanvas" 
+                Background="Transparent" MouseDown="MyCanvas_MouseDown" 
                 MouseUp="BackCanvas_MouseUp" MouseMove="BackCanvas_MouseMove"
-                PreviewMouseMove="BackCanvas_PreviewMouseMove">
-            <!--<i:Interaction.Behaviors>
-                <main:MouseBehaviour 
-                MouseX="{Binding MouseX, Mode=OneWayToSource, ElementName=MyContentControlWindow}"
-                MouseY="{Binding MouseY, Mode=OneWayToSource, ElementName=MyContentControlWindow}"
-            />
-            </i:Interaction.Behaviors>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDown">
-                    <i:InvokeCommandAction Command="{Binding CanvasClickedCmd, ElementName=MyContentControlWindow}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseUp">
-                    <i:InvokeCommandAction Command="{Binding CanvasUnclickedCmd, ElementName=MyContentControlWindow}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-        </Canvas>
-        <Canvas x:Name="MyCanvas"  >
-            
-        </Canvas>
+                PreviewMouseMove="BackCanvas_PreviewMouseMove" >
+            </Canvas>
+            <Canvas x:Name="MyCanvas"  >
+
+            </Canvas>
+        </Grid>
+
+  
     </Grid>
 
 </UserControl>

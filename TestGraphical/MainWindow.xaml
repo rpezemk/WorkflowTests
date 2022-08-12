@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:TestGraphical"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:TestGraphical.View"
+        xmlns:vm="clr-namespace:TestGraphical.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:VM_Main/>
+    </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Command="{Binding Path=SaveWorkflowCmd}" 
                 Key="S" 
@@ -40,8 +44,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <view:MyContentControl
-                ItemsSource="{Binding StepVMs, Mode=OneWay}"/>
+            <view:MyContentControl/>
             <Grid Grid.Column ="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -51,6 +54,8 @@
                     <Button Content="Dodaj krok" Command="{Binding AddControlCmd}"/>
                     <Button Content="Usuń krok" Command="{Binding AddControlCmd}"/>
                     <Button Content="Połącz" Command="{Binding ConnectExperimentalCmd}"/>
+                    <Button Content="Wczytaj przykład" Command="{Binding LoadExampleCmd}"/>
+                    <Button Content="Testing" Command="{Binding TestingCmd}"/>
                 </StackPanel>
                 <view:AvailableStepsView Grid.Row="1">
                     

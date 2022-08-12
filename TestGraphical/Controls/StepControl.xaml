@@ -8,7 +8,10 @@
              xmlns:local="clr-namespace:TestGraphical.Controls"
              mc:Ignorable="d" x:Name="MyStepControl"
              Loaded="MyStepControl_Loaded"
-             Height="auto" Width="70" Background="White" MouseDown="MyStepControl_MouseDown" MouseUp="MyStepControl_MouseUp" PreviewMouseMove="MyStepControl_PreviewMouseMove">
+             Height="auto" Width="50"  MouseDown="MyStepControl_MouseDown" MouseUp="MyStepControl_MouseUp" PreviewMouseMove="MyStepControl_PreviewMouseMove">
+    <UserControl.Background>
+        <SolidColorBrush Color="White" Opacity="0.7"/>
+    </UserControl.Background>
     <UserControl.Resources>
         <local:ThicknessConverter x:Key="ThicknessConverter"/>
     </UserControl.Resources>
@@ -26,7 +29,7 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Name}"/>
+            <TextBlock Text="{Binding MStep.Name}"/>
             <Grid Grid.Row="1">
                 <Button Width="10" Height="10" HorizontalAlignment="Right" Click="Button_Click"/>
             </Grid>

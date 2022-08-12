@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Prism.Commands;
 using TestGraphical.Controls;
 using TestGraphical.ViewModel;
 
@@ -28,34 +28,87 @@ namespace TestGraphical.View
         {
             InitializeComponent();
             Events.AddStepToCanvasEvt.Subscribe(AddControl);
-            Events.RefreshControlsEvt.Subscribe(RefreshControl);
             Events.ControlClicked.Subscribe(ChildControlClicked);
-            Events.ConnectExperimental.Subscribe(ConnectExperimental);
+            Events.ControlUnClicked.Subscribe(ChildControlUnClicked);
+            Events.RefreshLinesEvent.Subscribe(RefreshConnections);
+            Events.RefreshWorkflow.Subscribe(RefreshWorkflow);
+            Events.TestEvt.Subscribe(RefreshConnections);
         }
 
 
-
-
-        private void ConnectExperimental()
+        private void UpdateDimensions()
         {
-            Point GetPoint(UIElement e) => e.TransformToAncestor(MyCanvas).Transform(new Point(0, 0));
-            var xs = MyCanvas.Children.OfType<StepControl>().ToList();
-            var width = 50.0;
-            if (xs.Count > 0)
-                width = xs[0].ActualWidth;
-            var res = xs.Select(s => (s, xs.Where(s1 => s1 != s))).SelectMany(t => t.Item2.Select(a => (t.s, a)))
-                .SelectMany(t => t.a.OutputsPanel.Children.OfType<StepOutput>().Select(o => (t.s, o))).Select(p => (GetPoint(p.s), GetPoint(p.o)))
-                .Select(pair => new Line() { X1 = pair.Item1.X, Y1 = pair.Item1.Y, X2 = pair.Item2.X + width, Y2 = pair.Item2.Y + 9 }).ToList();
+            return;
+            var x = 0.0;
+            var y = 0.0;
+            var margin = 100.0;
+            var points = MyCanvas.Children.OfType<StepControl>().Select(sc => new Point() { X = sc.Margin.Left, Y = sc.Margin.Top + sc.ActualHeight}).ToList();
+            x = Math.Max(MyContentGrid.ActualWidth, points.Select(p => p.X).Max());
+            y = points.Select(p => p.Y).Max();
+            MyContentGrid.Width = x;
+            MyContentGrid.Height = y;
+        }
 
-            BackCanvas.Children.Clear();            
-            foreach (var l in res)
+        private void RefreshWorkflow()
+        {
+            if (DataContext == null)
+                return;
+            if (DataContext.GetType() != typeof(VM_Workflow))
+                return;
+            var vm = DataContext as VM_Workflow;
+            if (vm.StepVMs == null)
+                return;
+            foreach (var stepVM in vm.StepVMs)
             {
-                l.StrokeThickness = 2;
-                l.Stroke = new SolidColorBrush(Colors.Black);
-                BackCanvas.Children.Add(l);
+                AddControl(stepVM);
             }
+            UpdateLayout();
+            RefreshConnections();
 
         }
+
+        private void ChildControlUnClicked(StepControl obj)
+        {
+            isControlClicked = false;
+        }
+
+        private void RefreshConnections()
+        {
+            var mLinks = MyCanvas.Children.OfType<StepControl>().Where(sc => sc.DataContext != null).Where(sc => (sc.DataContext as VM_Step) != null)
+                .Select(sc => (sc.DataContext as VM_Step).MStep ?? new Model.MStep("added", "step", 10, 10))
+                .SelectMany(mstep => mstep.Outputs).ToList();
+            var count = mLinks.Count();
+
+            var stepControls = MyCanvas.Children.OfType<StepControl>().ToList();
+            var width = 50.0;
+            if (stepControls.Count > 0)
+                width = stepControls[0].ActualWidth;
+
+            var outputs = stepControls.SelectMany(sc => sc.OutputsPanel.Children.OfType<StepOutput>()).ToList();
+
+
+
+
+            var OArrows = mLinks.Select(link => new ObjectArrow()
+            {
+                X1 = outputs.Where(o => o.MLink == link).First().GetOutputPoint().X,
+                Y1 = outputs.Where(o => o.MLink == link).First().GetOutputPoint().Y + 10,
+                X2 = stepControls.Where(sc => link.OutputStep == sc.MStep).First().GetOutputPoint().X,
+                Y2 = stepControls.Where(sc => link.OutputStep == sc.MStep).First().GetOutputPoint().Y
+            });
+
+            BackCanvas.Children.Clear();
+            foreach (var arrow in OArrows)
+            {
+                arrow.StrokeThickness = 2.0;
+                arrow.Stroke = new SolidColorBrush(Colors.Black);
+                arrow.DrawOn(BackCanvas);//.Children.Add(l);
+            }
+            UpdateDimensions();
+        }
+
+
+
 
         Point lastClickPos;
         Point mousePos;
@@ -69,6 +122,14 @@ namespace TestGraphical.View
             UpdateZInexesByLastCtrl(obj);
             isControlClicked = true;
             lastClickPos = (Point)((Vector)obj.TransformToAncestor(MyCanvas).Transform(new Point(0, 0)) + (Vector)obj.ClickPos);
+            if (obj.MStep != null && isControlClicked)
+            {
+                if (!Keyboard.IsKeyDown(Key.LeftCtrl))
+                    Events.ClearSelectionEvent.Publish();
+
+                Events.StepSelectedEvent.Publish(obj.MStep);
+            }
+
         }
 
 
@@ -91,7 +152,7 @@ namespace TestGraphical.View
         private void BackCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             isControlClicked = true;
-            if(SelectedControl != null)
+            if (SelectedControl != null)
             {
                 SelectedControl.IsClicked = false;
             }
@@ -109,7 +170,7 @@ namespace TestGraphical.View
                 }
                 if (isDragMode)
                 {
-                    if (SelectedControl != null)
+                    if (SelectedControl != null && isControlClicked)
                     {
                         SelectedControl.SetPosition(mousePos);
                     }
@@ -137,10 +198,10 @@ namespace TestGraphical.View
 
             var ordered = ctrlList2.OrderBy(ctl => Panel.GetZIndex(ctl));
             var counter = 0;
-            foreach(var ctl in ordered)
+            foreach (var ctl in ordered)
             {
                 Panel.SetZIndex(ctl, counter);
-                counter++;                
+                counter++;
             }
         }
 
@@ -150,11 +211,27 @@ namespace TestGraphical.View
             Controls.StepControl stepControl = new Controls.StepControl();
             vm_step.XOffset = counter;
             vm_step.YOffset = counter;
-            vm_step.Name = $"name {counter}";
+            //vm_step.Name = vm_step.;
             counter += 10;
+            stepControl.OutputsPanel.Children.Clear();
+            if (vm_step.MStep != null)
+            {
+                if (vm_step.MStep.Outputs != null)
+                {
+                    foreach (var ms in vm_step.MStep.Outputs)
+                    {
+                        stepControl.OutputsPanel.Children.Add(new StepOutput() { MLink = ms });
+                    }
+                    stepControl.MLinkOutputs = vm_step.MStep.Outputs;
+                }
+                stepControl.Margin = new Thickness(vm_step.MStep.XOffset, vm_step.MStep.YOffset, 0, 0);
+            }
+
+            stepControl.MStep = vm_step.MStep;
             stepControl.DataContext = vm_step;
             stepControl.VisualGuid = vm_step.VisualGuid;
             MyCanvas.Children.Add(stepControl);
+
             UpdateZInexesByLastCtrl(stepControl);
         }
 
@@ -206,10 +283,6 @@ namespace TestGraphical.View
 
 
 
-        private void RefreshControl()
-        {
-
-        }
 
 
 

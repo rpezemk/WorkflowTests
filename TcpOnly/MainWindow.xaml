@@ -17,10 +17,10 @@
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="ClientTextBlock" Grid.Row="1"/>
-        <TextBox x:Name="ServerTextBlock" Grid.Row="1" Grid.Column="1"/>
-        <TextBlock x:Name="ClientResponseTextBlock" Grid.Row="2"/>
-        <TextBlock x:Name="ServerResponseTextBlock" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="ClientTextBlock" Grid.Row="1" TextWrapping="Wrap"/>
+        <TextBox x:Name="ServerTextBlock" Grid.Row="1" Grid.Column="1"  TextWrapping="Wrap"/>
+        <TextBlock x:Name="ClientResponseTextBlock" Grid.Row="2" TextWrapping="Wrap"/>
+        <TextBlock x:Name="ServerResponseTextBlock" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap"/>
         <Button x:Name="ClientSendButton" Content="Send (to server)" Click="ClientSendButton_Click" Width="100" Height="30" Grid.Row="3" />
         <StackPanel Grid.Column="1"  Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="ServerSendButton" Content="Send (to client)" Click="ServerSendButton_Click"  Width="100" Height="30"/>

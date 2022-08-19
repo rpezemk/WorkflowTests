@@ -11,19 +11,21 @@ namespace DawCommunication
 {
     public class DawTcpClient
     {
+        public string Name { get; set; }
         public string ServerIP { get; set; }
         public int Port { get; set; }
+        public TcpClient client { get; set; }
 
-        public DawTcpClient(string serverIP, int port)
+        public DawTcpClient(string serverIP, int port, string name)
         {
             ServerIP = serverIP;
             Port = port;
-            //client = new TcpClient(ServerIP, Port);
+            Name = name;
         }
 
         public void Close()
         {
-            if(client != null)
+            if (client != null)
             {
                 client.Close();
             }
@@ -34,50 +36,45 @@ namespace DawCommunication
             client = new TcpClient(ServerIP, Port);
         }
 
-        public TcpClient client { get; set; }
-        
-        
-        
-        public string SendData(string textToSend)
-        {
-            string messageResult = "";
-            client = client ?? new TcpClientEx(ServerIP, Port);
-            NetworkStream stream = client.GetStream();
-            byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(textToSend);
-            stream.Write(bytesToSend, 0, bytesToSend.Length);
-
-            byte[] bytesToRead = new byte[client.ReceiveBufferSize];
-            int bytesRead = stream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-            messageResult = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
-            //client.Close();
-            return messageResult;
-        }
-
-
 
         public void SendDataAndReceiveAsync(string textToSend, Action<string> action)
         {
-            Task task = Task.Run(() => 
-            {
-                //try
-                {
-                    string messageResult = "";
-                    client = client ?? new TcpClient(ServerIP, Port);
-                    NetworkStream stream = client.GetStream();
-                    byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(textToSend);
-                    stream.Write(bytesToSend, 0, bytesToSend.Length);
+            if (string.IsNullOrEmpty(textToSend))
+                return;
+            Task task = Task.Run
+                (
+                    () =>
+                    {
+                        string messageResult = "";
+                        client = new TcpClient(ServerIP, Port);
+                        NetworkStream stream = client.GetStream();
+                        byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(textToSend);
+                        stream.Write(bytesToSend, 0, bytesToSend.Length);
+                        byte[] bytesToRead = new byte[client.ReceiveBufferSize];
+                        int bytesRead = stream.Read(bytesToRead, 0, client.ReceiveBufferSize);
+                        messageResult = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
+                        if (action != null)
+                            action.Invoke(messageResult);
+                    }
+                );
 
-                    byte[] bytesToRead = new byte[client.ReceiveBufferSize];
-                    int bytesRead = stream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                    messageResult = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
-                    if (action != null)
-                        action.Invoke(messageResult);
-                }
-            });
         }
+
+        public void SendTxtMessage(TxtMessage txtMessage, Action<string> action)
+        {
+            var xmlData = txtMessage.GetAsXmlString();
+            SendDataAndReceiveAsync(xmlData, action);
+        }
+
+
 
         public string GetData()
         {
+            if (client == null)
+                return string.Empty;
+            if (client.Connected == false)
+                return string.Empty;
+
             var c = client;
             var len = c.Available;
             NetworkStream reader = c.GetStream();
@@ -87,6 +84,8 @@ namespace DawCommunication
             var res = Encoding.ASCII.GetString(bytes);
             return res;
         }
+
+
 
     }
 }

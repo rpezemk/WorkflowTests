@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,7 +14,7 @@ namespace DawCommunication
         public int Port { get; set; }
         public bool ClosingPending { get; set; } = false;
         private TcpListenerEx tcpListener;
-        private List<TcpClient> clients = new List<TcpClient>();
+        private TcpClient client = new TcpClient();
         Task task;
         public DawTcpServer(string serverIP, int port)
         {
@@ -48,22 +49,12 @@ namespace DawCommunication
 
         public void SendTextData(string message)
         {
-
-
-            foreach (var c in clients)
+            if (client != null && client != null)
             {
-                if(c != null && c != null)
-                {
-                    NetworkStream nwStream = c.GetStream();
-                    byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(message);
-                    nwStream.Write(bytesToSend, 0, bytesToSend.Length);
-                }
-                else
-                {
-                    clients.Remove(c);
-                }
+                NetworkStream nwStream = client.GetStream();
+                byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(message);
+                nwStream.Write(bytesToSend, 0, bytesToSend.Length);
             }
-
         }
 
         private void BackgroundTaskMethod(ref TcpListenerEx listener)
@@ -73,16 +64,14 @@ namespace DawCommunication
 
             while (ClosingPending == false)
             {
-                
                 {
-                    TcpClient client = listener.AcceptTcpClient() ;
+                    client = listener.AcceptTcpClient();
                     NetworkStream nwStream = client.GetStream();
                     byte[] buffer = new byte[client.ReceiveBufferSize];
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
                     string dataChanged = Encoding.ASCII.GetString(buffer, 0, bytesRead) + " Confirmed";
                     byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(dataChanged);
                     nwStream.Write(bytesToSend, 0, bytesToSend.Length);
-                    clients.Add(client);
                 }
 
 

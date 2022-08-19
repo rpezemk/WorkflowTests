@@ -46,10 +46,13 @@
     <Compile Include="DawTcpServer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="DMessage\AMessage.cs" />
+    <Compile Include="DMessage\ObjMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DMessage\Serializer.cs" />
     <Compile Include="TcpClientEx.cs" />
     <Compile Include="TcpListenerEx.cs" />
+    <Compile Include="DMessage\TxtMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

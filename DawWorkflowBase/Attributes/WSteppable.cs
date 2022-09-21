@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DawWorkflowBase.Attributes
 {
     [System.AttributeUsage(System.AttributeTargets.Method)]
-    public class StepAttribute : System.Attribute
+    public class SteppableMethodAttribute : System.Attribute
     {
 
     }

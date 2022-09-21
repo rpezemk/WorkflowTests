@@ -5,17 +5,9 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawWorkflowBase", "DawWorkflowBase\DawWorkflowBase.csproj", "{8DE85581-9D93-43E0-8466-E26EB618D00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDropTest", "DragDropTest\DragDropTest.csproj", "{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawLogicLibrary", "DawLogicLibrary\DawLogicLibrary.csproj", "{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGraphical", "TestGraphical\TestGraphical.csproj", "{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebsocketTests", "WebsocketTests", "{2386810B-AC0D-4183-83A7-D9B97CFA4945}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpOnly", "TcpOnly\TcpOnly.csproj", "{79875D82-C654-45D9-BE77-88C930F1B89E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawCommunication", "DawCommunication\DawCommunication.csproj", "{A79199A9-17F2-4125-B914-41EA81AF00F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp\TestingApp.csproj", "{22576357-9741-42ED-B452-F0964EDE0C42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,33 +19,17 @@ Global
 		{8DE85581-9D93-43E0-8466-E26EB618D00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DE85581-9D93-43E0-8466-E26EB618D00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DE85581-9D93-43E0-8466-E26EB618D00F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF9B4E44-0023-4757-8317-E1C5DDAA61E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E3E6F91-8958-4717-9EB6-5D8BB02A10E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79875D82-C654-45D9-BE77-88C930F1B89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79875D82-C654-45D9-BE77-88C930F1B89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79875D82-C654-45D9-BE77-88C930F1B89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79875D82-C654-45D9-BE77-88C930F1B89E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A79199A9-17F2-4125-B914-41EA81AF00F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A79199A9-17F2-4125-B914-41EA81AF00F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A79199A9-17F2-4125-B914-41EA81AF00F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A79199A9-17F2-4125-B914-41EA81AF00F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22576357-9741-42ED-B452-F0964EDE0C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22576357-9741-42ED-B452-F0964EDE0C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{79875D82-C654-45D9-BE77-88C930F1B89E} = {2386810B-AC0D-4183-83A7-D9B97CFA4945}
-		{A79199A9-17F2-4125-B914-41EA81AF00F5} = {2386810B-AC0D-4183-83A7-D9B97CFA4945}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4DB7C12-FC06-4855-A5DE-681A53512E24}

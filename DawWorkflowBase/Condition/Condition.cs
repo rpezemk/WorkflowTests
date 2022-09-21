@@ -135,14 +135,6 @@ namespace DawWorkflowBase.Conditions
 
 
 
-
-
-
-    public class TestContext : Context.IContext
-    {
-        public Doc Doc;
-    }
-
     public class Doc
     {
         public int GidType { get; set; } = 0;

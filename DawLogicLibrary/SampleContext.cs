@@ -10,6 +10,11 @@ namespace DawLogicLibrary
         public int c;
         public DocModels.Doc Doc { get; set; }
         public DocModels.Doc Zam { get; set; }
+
+        public string GetName()
+        {
+            return this.GetType().Name;
+        }
     }
 
 }

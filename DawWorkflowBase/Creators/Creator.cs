@@ -46,6 +46,9 @@ namespace DawWorkflowBase.Creators
 
     public class TestContext : IContext
     {
-
+        public string GetName()
+        {
+            return this.GetType().Name;
+        }
     }
 }

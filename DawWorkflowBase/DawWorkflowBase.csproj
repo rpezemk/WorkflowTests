@@ -45,7 +45,7 @@
     <Compile Include="Attributes\ConditionAttribute.cs" />
     <Compile Include="Attributes\ConditionsAttribute.cs" />
     <Compile Include="Attributes\DefaultableAttribute.cs" />
-    <Compile Include="Attributes\MethodsAttribute.cs" />
+    <Compile Include="Attributes\SteppableLibraryAttribute.cs" />
     <Compile Include="Attributes\TranslatorAttribute.cs" />
     <Compile Include="Attributes\WSteppable.cs" />
     <Compile Include="Condition\AND.cs" />
@@ -53,12 +53,8 @@
     <Compile Include="Condition\NOT.cs" />
     <Compile Include="Condition\Operator.cs" />
     <Compile Include="Condition\OR.cs" />
-    <Compile Include="Context\EmptyStepContext.cs" />
     <Compile Include="Context\IContext.cs" />
-    <Compile Include="Context\BaseContext.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Model\SLink.cs" />
-    <Compile Include="Model\SStep.cs" />
     <Compile Include="Translators\Translator.cs" />
     <Compile Include="Creators\Creator.cs" />
     <Compile Include="Extensions\WrkExtensions.cs" />
@@ -66,8 +62,6 @@
     <Compile Include="Links\ILinkInstance.cs" />
     <Compile Include="Links\LinkDef.cs" />
     <Compile Include="Links\LinkInstance.cs" />
-    <Compile Include="Lists\ThreeTuple.cs" />
-    <Compile Include="Lists\TwoTuple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\StepLister.cs" />
     <Compile Include="Steps\ChoiceNode.cs" />
@@ -84,9 +78,6 @@
     <Compile Include="WCF\MessageTypes\NotAMessage.cs" />
     <Compile Include="WCF\MessageQueue.cs" />
     <Compile Include="Workers\Worker.cs" />
-    <Compile Include="WorkflowResult\IWorkflowResult.cs" />
-    <Compile Include="WorkflowResult\WorkflowErrorResult.cs" />
-    <Compile Include="WorkflowResult\WorkflowOKResult.cs" />
     <Compile Include="Workflow\WorkflowBase.cs" />
   </ItemGroup>
   <ItemGroup />

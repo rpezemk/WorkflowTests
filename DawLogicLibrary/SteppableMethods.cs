@@ -6,51 +6,53 @@ using DawWorkflowBase.Attributes;
 
 namespace DawLogicLibrary
 {
-    [DawWorkflowBase.Attributes.Methods]
+    [DawWorkflowBase.Attributes.SteppableLibrary]
     public static class SteppableMethods
     {
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod1(SampleContext context)
         {
 
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod2(SampleContext context)
         {
-
+            
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod3(SampleContext context)
         {
 
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod4(SampleContext context)
         {
 
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod5(SampleContext context)
         {
 
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod7(SampleContext context)
         {
 
         }
 
-        [DawWorkflowBase.Attributes.Step]
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod8(SampleContext context)
         {
 
         }
-        [DawWorkflowBase.Attributes.Step]
+
+
+        [DawWorkflowBase.Attributes.SteppableMethod]
         public static void SteppableMethod9(AnotherContext context)
         {
 
@@ -74,6 +76,8 @@ namespace DawLogicLibrary
         {
             throw new NotImplementedException();
         }
+
+
     }
 
 }

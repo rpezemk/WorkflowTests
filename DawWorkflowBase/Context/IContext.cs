@@ -10,6 +10,6 @@ namespace DawWorkflowBase.Context
 {
     public interface IContext
     {
-
+        string GetName();
     }
 }

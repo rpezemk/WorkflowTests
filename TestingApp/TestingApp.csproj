@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DawLogicLibrary</RootNamespace>
-    <AssemblyName>DawLogicLibrary</AssemblyName>
+    <ProjectGuid>{22576357-9741-42ED-B452-F0964EDE0C42}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestingApp</RootNamespace>
+    <AssemblyName>TestingApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,22 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnotherContext.cs" />
-    <Compile Include="Conditions.cs" />
-    <Compile Include="SteppableLib.cs" />
-    <Compile Include="SteppableMethods.cs" />
-    <Compile Include="Model\Doc.cs" />
-    <Compile Include="Model\NB.cs" />
-    <Compile Include="Model\Pos.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleContext.cs" />
-    <Compile Include="SampleWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DawWorkflowBase\DawWorkflowBase.csproj">
-      <Project>{8de85581-9d93-43e0-8466-e26eb618d00f}</Project>
-      <Name>DawWorkflowBase</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

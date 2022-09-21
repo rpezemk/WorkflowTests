@@ -74,8 +74,12 @@ namespace DawLogicLibrary
             var link121 = new LinkDef<SampleContext, SampleContext>(condDoc2037, SteppableMethods.ConverterMethod3);
 
             var root = new ChoiceNode<SampleContext>(initStepDef);
+            RootStep = root;
+
             var child1 = new ChoiceNode<SampleContext>(step1Def);
             var child2 = new ChoiceNode<SampleContext>(step1Def);
+
+
             root.AddLink(link11, child1);
             root.AddLink(link12, child2);
 
@@ -88,7 +92,6 @@ namespace DawLogicLibrary
             child23.AddLink(link111, commonStep);
             Creator creator = new Creator();
             var endStep = creator.GenerateStep(typeof(ChoiceNode<>).Name, typeof(SampleContext).Name);
-            RootStep = root;
         }
 
 

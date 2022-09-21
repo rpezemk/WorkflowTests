@@ -61,22 +61,12 @@
     <Compile Include="Translators\Translator.cs" />
     <Compile Include="Creators\Creator.cs" />
     <Compile Include="Extensions\WrkExtensions.cs" />
-    <Compile Include="Links\ILinkDef.cs" />
-    <Compile Include="Links\LinkDef.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\StepLister.cs" />
     <Compile Include="Steps\ChoiceNode.cs" />
     <Compile Include="Steps\FlowBind.cs" />
     <Compile Include="Steps\IStep.cs" />
-    <Compile Include="Steps\IStepDef.cs" />
     <Compile Include="Steps\AStep.cs" />
-    <Compile Include="Steps\StepDef.cs" />
-    <Compile Include="WCF\AMessage.cs" />
-    <Compile Include="WCF\MessageTypes\CheckConnectionMessage.cs" />
-    <Compile Include="WCF\MessageTypes\GetWorkflowMessage.cs" />
-    <Compile Include="WCF\MessageStatus.cs" />
-    <Compile Include="WCF\MessageTypes\NotAMessage.cs" />
-    <Compile Include="WCF\MessageQueue.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workflow\WorkflowBase.cs" />
   </ItemGroup>

@@ -18,11 +18,8 @@ namespace DawWorkflowBase.Steps
         {
 
         }
-        public AStep(StepDef<TContext> stepDef) 
-        {
-            StepDef = stepDef;
-        }
-        public StepDef<TContext> StepDef { get; set; }  
+
+
 
         //public AStep()
         //{
@@ -36,6 +33,8 @@ namespace DawWorkflowBase.Steps
 
         private bool done = false;
 
+
+        public Action<TContext> MyAction;
 
         public string Name { get  ; set ; }
         public List<Links.LinkInstance<TContext>> ResultLinks { get; set; } = new List<LinkInstance<TContext>>();
@@ -63,10 +62,7 @@ namespace DawWorkflowBase.Steps
             IsEndPoint = isEndPoint;
         }
 
-        public void RunStep(IContext context)
-        {
-            StepDef.StepAction((TContext)context);
-        }
+
 
         public IContext GetContext()
         {
@@ -80,7 +76,18 @@ namespace DawWorkflowBase.Steps
 
         List<ILinkInstance> IStep.GetLinks()
         {
-            return ResultLinks.Select(l => l as ILinkInstance).ToList();
+            var test = ResultLinks.Select(l => l as ILinkInstance).ToList();
+            return test;
+        }
+
+
+
+        public void RunStep(IContext context)
+        {
+            if (MyAction == null)
+                return;
+
+            MyAction.Invoke((TContext)context);
         }
     }
 

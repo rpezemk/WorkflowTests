@@ -23,12 +23,17 @@ namespace DawWorkflowBase.Workers
             Workflow = workflow;
         }
 
+        public List<IStep> SerializeSteps()
+        {
+            StepSerializer.SerializeStep(Workflow.RootStep);
+            AllSteps = StepSerializer.StepsSerialized;
+            return AllSteps;
+        }
+
         public bool RunWorkflow()
         {
             try
             {
-                StepSerializer.SerializeStep(Workflow.RootStep);
-                AllSteps = StepSerializer.StepsSerialized;
                 if (AllSteps.Where(st => st.CheckIfEndPoint() == true).Any())
                 {
                     var root = AllSteps[0];

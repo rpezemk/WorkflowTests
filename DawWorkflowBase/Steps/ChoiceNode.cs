@@ -19,17 +19,13 @@ namespace DawWorkflowBase.Steps
         {
 
         }
-        public ChoiceNode(StepDef<TContext> stepDef) : base(stepDef)
-        {
-
-        }
 
         public ChoiceNode(Action<TContext> action)
         {
-            Action = action;
+            MyAction = action;
         }
 
-        public Action<TContext> Action;
+
 
         public void SetNext(Condition<TContext> condition, Steps.AStep<TContext> outStep) 
         {
@@ -44,9 +40,5 @@ namespace DawWorkflowBase.Steps
             ResultLinks.Add(linkInstance);
         }
 
-        public void TranslateAndAppend<TResultContext>(Translators.Translator<TContext, TResultContext> translator, ChoiceNode<TContext> outputNode) where TResultContext : IContext
-        {
-
-        }
     }
 }

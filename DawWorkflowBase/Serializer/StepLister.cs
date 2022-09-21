@@ -18,7 +18,7 @@ namespace DawWorkflowBase.Serializer
 
         public void SerializeStep(IStep step)
         {
-            StepsSerialized.Clear();
+            //StepsSerialized.Clear();
             if (!StepsSerialized.Contains(step))
             {
                 StepsSerialized.Add(step);

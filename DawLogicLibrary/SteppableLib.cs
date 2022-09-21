@@ -50,8 +50,11 @@ namespace DawLogicLibrary
         //              (terminator)
         public ChoiceNode<SampleContext> TerminatorSC = new ChoiceNode<SampleContext>();
 
+        SampleContext sampleContext = new SampleContext();
+
         public void Init()
         {
+
             A0.SetNext(a => a.Doc.GidType == 2001, A1);
             A1.SetNext(a => a.Doc.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Any(), A21);
             A1.SetNext(a => a.Doc.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Count() == 0, A22);
@@ -63,14 +66,14 @@ namespace DawLogicLibrary
             A31.SetNext(a => true, A41);
             A32.SetNext(a => true, A41);
             A41.SetNext(a => true, A51);
-
             A51.SetNext(a => true, TerminatorSC);
+            A0.RunStep(sampleContext);
 
-            B1.SetNext(b => b.Zam.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Any(), B21);
-            B1.SetNext(b => b.Zam.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Count() == 0, B22);
+            //B1.SetNext(b => b.Zam.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Any(), B21);
+            //B1.SetNext(b => b.Zam.Rows.Where(r => r.NB == DocModels.Primitives.NB.B).Count() == 0, B22);
             
-            B21.SetNext(b => true, B31);
-            B22.SetNext(b => true, B31);
+            //B21.SetNext(b => true, B31);
+            //B22.SetNext(b => true, B31);
 
             //B31.AddLink(b => true, A51, TranslatorB2A);
 

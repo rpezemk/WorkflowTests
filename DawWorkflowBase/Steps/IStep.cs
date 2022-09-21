@@ -9,7 +9,7 @@ using DawWorkflowBase.Context;
 
 namespace DawWorkflowBase.Steps
 {
-    public interface IStep
+    public interface IStep 
     {
         string GetName();
         void AcceptContext(IContext parentContext);

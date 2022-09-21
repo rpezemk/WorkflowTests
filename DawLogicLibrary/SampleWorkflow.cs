@@ -47,9 +47,9 @@ namespace DawLogicLibrary
 
             var condAlwaysTrue = new Condition<SampleContext>(b => true, "Zawsze");
             var condNeverTrue = new Condition<SampleContext>(b => true, "Nigdy");
-            var condDoc2001 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2001, "Paragon");
-            var condDoc2036 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2036, "Faktura krajowa");
-            var condDoc2037 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2037, "Faktura exportowa");
+            var condDoc2001 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2001, "Jeśli paragon");
+            var condDoc2036 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2036, "Jeśli Faktura krajowa");
+            var condDoc2037 = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.GidType == 2037, "Jeśli Faktura exportowa");
             var condDocIsNetto = new Condition<DawLogicLibrary.SampleContext>(b => b.Doc.NB == DocModels.Primitives.NB.N, "Dokument netto");
 
             var condContext2Test = new Condition<DawLogicLibrary.AnotherContext>(b => true, "Context 2 always true");
@@ -68,30 +68,27 @@ namespace DawLogicLibrary
             var otherContextStepDef = new StepDef<AnotherContext>(SteppableMethods.SteppableMethod9, "Other Context branch");
             var commonNode1Def = new StepDef<SampleContext>(b => { }, "Common node");
 
-            var link11 = new LinkDef<SampleContext, SampleContext>(condAlwaysTrue, SteppableMethods.ConverterMethod3);
-            var link111 = new LinkDef<SampleContext, SampleContext>(condAlwaysTrue, SteppableMethods.ConverterMethod3);
-            var link12 = new LinkDef<SampleContext, SampleContext>(condDoc2037, SteppableMethods.ConverterMethod3);
-            var link121 = new LinkDef<SampleContext, SampleContext>(condDoc2037, SteppableMethods.ConverterMethod3);
-
-            var root = new ChoiceNode<SampleContext>(initStepDef);
-            RootStep = root;
-
-            var child1 = new ChoiceNode<SampleContext>(step1Def);
-            var child2 = new ChoiceNode<SampleContext>(step1Def);
 
 
-            root.AddLink(link11, child1);
-            root.AddLink(link12, child2);
+            //var root = new ChoiceNode<SampleContext>(initStepDef);
+            //RootStep = root;
+
+            //var child1 = new ChoiceNode<SampleContext>(step1Def);
+            //var child2 = new ChoiceNode<SampleContext>(step1Def);
 
 
-            var child23 = new ChoiceNode<SampleContext>(step23Def);
-            child2.AddLink(link121, child23);
+            //root.AddLink(link11, child1);
+            //root.AddLink(link12, child2);
 
-            var commonStep = new ChoiceNode<SampleContext>(commonNode1Def);
-            child1.AddLink(link121, commonStep);
-            child23.AddLink(link111, commonStep);
-            Creator creator = new Creator();
-            var endStep = creator.GenerateStep(typeof(ChoiceNode<>).Name, typeof(SampleContext).Name);
+
+            //var child23 = new ChoiceNode<SampleContext>(step23Def);
+            //child2.AddLink(link121, child23);
+
+            //var commonStep = new ChoiceNode<SampleContext>(commonNode1Def);
+            //child1.AddLink(link121, commonStep);
+            //child23.AddLink(link111, commonStep);
+            //Creator creator = new Creator();
+            //var endStep = creator.GenerateStep(typeof(ChoiceNode<>).Name, typeof(SampleContext).Name);
         }
 
 

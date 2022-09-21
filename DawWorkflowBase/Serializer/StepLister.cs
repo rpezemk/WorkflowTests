@@ -11,7 +11,7 @@ namespace DawWorkflowBase.Serializer
     public class StepLister
     {
         public List<IStep> StepsSerialized = new List<IStep>();
-        public List<ILinkDef> LinkDefs = new List<ILinkDef>();
+
         public List<ILinkInstance> LinkInstances = new List<ILinkInstance>();
 
         public List<IStep> CurrPath = new List<IStep>();
@@ -36,9 +36,7 @@ namespace DawWorkflowBase.Serializer
                 }
 
             }
-            LinkDefs.Clear();
             LinkInstances = StepsSerialized.SelectMany(s => s.GetLinks()).Distinct().ToList();
-            LinkDefs = LinkInstances.Select(li => li.GetLinkDef()).ToList();
         }
     }
 }

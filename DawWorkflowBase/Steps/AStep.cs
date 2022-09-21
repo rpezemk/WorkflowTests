@@ -23,7 +23,6 @@ namespace DawWorkflowBase.Steps
             StepDef = stepDef;
         }
         public StepDef<TContext> StepDef { get; set; }  
-        public List<FlowBind<Condition<TContext>, IStep>> BindList = new List<FlowBind<Condition<TContext>, IStep>>();
 
         //public AStep()
         //{
@@ -39,7 +38,7 @@ namespace DawWorkflowBase.Steps
 
 
         public string Name { get  ; set ; }
-        public List<Links.ILinkInstance> ResultLinks { get; set; } = new List<ILinkInstance>();
+        public List<Links.LinkInstance<TContext>> ResultLinks { get; set; } = new List<LinkInstance<TContext>>();
         public TContext StepContext { get; set; }
         
         public void AcceptContext(IContext parentContext)
@@ -52,10 +51,7 @@ namespace DawWorkflowBase.Steps
             return Name;
         }
 
-        public List<ILinkInstance> GetLinks()
-        {
-            return ResultLinks;
-        }
+
 
         public bool CheckIfEndPoint()
         {
@@ -80,6 +76,11 @@ namespace DawWorkflowBase.Steps
         public override string ToString()
         {
             return $"Step {Name}, {Guid}";
+        }
+
+        List<ILinkInstance> IStep.GetLinks()
+        {
+            return ResultLinks.Select(l => l as ILinkInstance).ToList();
         }
     }
 

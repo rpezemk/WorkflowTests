@@ -11,7 +11,7 @@ namespace DawWorkflowBase.Steps
     {
         public StepDef()
         {
-
+            
         }
 
         public StepDef(Action<TContext> action, string name)

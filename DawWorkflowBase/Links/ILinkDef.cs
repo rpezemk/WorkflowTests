@@ -1,9 +1,9 @@
 ﻿namespace DawWorkflowBase.Links
 {
-    public interface ILinkDef
-    {
-        Conditions.ICondition GetCondition();
-    }
+    //public interface ILinkDef
+    //{
+    //    Conditions.ICondition GetCondition();
+    //}
 
 
 }

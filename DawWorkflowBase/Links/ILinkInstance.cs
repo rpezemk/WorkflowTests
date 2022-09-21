@@ -6,9 +6,9 @@ namespace DawWorkflowBase.Links
     {
 
         Conditions.ICondition GetCondition();
-        IStep GetInputStep();
+        string GetStepName();
+        string GetResult();
         IStep GetResultStep();
-        ILinkDef GetLinkDef();
     }
 
 

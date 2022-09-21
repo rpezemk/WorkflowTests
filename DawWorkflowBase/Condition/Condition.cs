@@ -10,11 +10,6 @@ using System.Threading.Tasks;
 namespace DawWorkflowBase.Conditions
 {
 
-    public interface ICondition
-    {
-        bool Evaluate(IContext context);
-    }
-
     public class Condition<TContext> : ICondition where TContext: Context.IContext
     {
         public Func<TContext, bool> Func { get; set; }

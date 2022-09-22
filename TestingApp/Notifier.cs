@@ -62,9 +62,8 @@ namespace TestingApp
 
             resMermaid += "```\r\n";
             Console.WriteLine(resMermaid);
-            var htmlMermaid = System.Net.WebUtility.HtmlEncode(resMermaid);
-            Console.WriteLine(htmlMermaid);
-            //ReplacePage(htmlMermaid);
+
+            ReplacePage(resMermaid);
 
         }
 
@@ -72,7 +71,7 @@ namespace TestingApp
 
         internal static async void ReplacePage(string content)
         {
-            var exactContent = content.Replace("\n", @"\n").Replace("\r", @"\r");
+            var exactContent = content.Replace("\n", @"\n").Replace("\r", @"\r").Replace("(", @"&#40").Replace(")", @"&#41");
 
             var queryGet = @"query { pages { list { id title } } }";
             if (!SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryGet, out var outData1))
@@ -89,7 +88,7 @@ namespace TestingApp
                 SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryDel, out var outData2);
             }
 
-            var nextId = pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
+            var nextId = 77777;// pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
 
             var queryCreate = @"mutation {
                             pages {

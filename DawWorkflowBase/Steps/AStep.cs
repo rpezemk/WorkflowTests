@@ -10,7 +10,7 @@ using DawWorkflowBase.Steps;
 
 namespace DawWorkflowBase.Steps
 { 
-    public abstract class AStep<TContext> : IStep where TContext: IContext
+    public abstract class AStep<BaseContext,OutputContext> : IStep where BaseContext: IContext where OutputContext: IContext
     {
         public Guid Guid = Guid.NewGuid();
         public bool IsEndPoint { get; set; } = false;
@@ -22,19 +22,19 @@ namespace DawWorkflowBase.Steps
         private bool done = false;
 
 
-        public Action<TContext> MyAction;
+        public Action<BaseContext> MyAction;
 
         public string Name { get  ; set ; }
-        public List<Links.LinkInstance<TContext>> ResultLinks { get; set; } = new List<LinkInstance<TContext>>();
+        public List<Links.LinkInstance<BaseContext, OutputContext>> ResultLinks { get; set; } = new List<LinkInstance<BaseContext,OutputContext>>();
         
 
 
 
-        public TContext StepContext { get; set; }
+        public BaseContext StepContext { get; set; }
         
         public void AcceptContext(IContext parentContext)
         {
-            StepContext = (TContext)parentContext;
+            StepContext = (BaseContext)parentContext;
         }
 
         public string GetName()
@@ -79,7 +79,7 @@ namespace DawWorkflowBase.Steps
             if (MyAction == null)
                 return;
 
-            MyAction.Invoke((TContext)context);
+            MyAction.Invoke((BaseContext)context);
         }
     }
 

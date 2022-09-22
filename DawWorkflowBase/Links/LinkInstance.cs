@@ -4,15 +4,15 @@ using DawWorkflowBase.Steps;
 
 namespace DawWorkflowBase.Links
 {
-    public class LinkInstance<InputContext> : ILinkInstance where InputContext : IContext 
+    public class LinkInstance<InputContext,OutputContext> : ILinkInstance where InputContext : IContext where OutputContext : IContext
     {
-        public LinkInstance(Condition<InputContext> condition, Steps.AStep<InputContext> outputStep)
+        public LinkInstance(Condition<InputContext> condition, Steps.AStep<InputContext,OutputContext> outputStep)
         {
             OutputStep = outputStep;
             Condition = condition;
         }
 
-        public AStep<InputContext> OutputStep { get; set; }
+        public AStep<InputContext,OutputContext> OutputStep { get; set; }
         public Condition<InputContext> Condition {get; set;}
 
         public ICondition GetCondition()

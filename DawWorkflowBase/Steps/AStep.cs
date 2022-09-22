@@ -19,18 +19,6 @@ namespace DawWorkflowBase.Steps
 
         }
 
-
-
-        //public AStep()
-        //{
-        //    ResultLinks = new List<Links.ILinkInstance>();
-        //    Guid = Guid.NewGuid();
-        //}
-
-        //public abstract void SetHandler();
-
-
-
         private bool done = false;
 
 
@@ -38,6 +26,10 @@ namespace DawWorkflowBase.Steps
 
         public string Name { get  ; set ; }
         public List<Links.LinkInstance<TContext>> ResultLinks { get; set; } = new List<LinkInstance<TContext>>();
+        
+
+
+
         public TContext StepContext { get; set; }
         
         public void AcceptContext(IContext parentContext)

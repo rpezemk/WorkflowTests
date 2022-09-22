@@ -22,6 +22,11 @@ namespace DawWorkflowBase.Serializer
             if (!StepsSerialized.Contains(step))
             {
                 StepsSerialized.Add(step);
+                var name = step.GetName();
+                if (name.Contains("B"))
+                {
+                    int i = 123;
+                }
                 var children = step.GetLinks().Select(l => l.GetResultStep()).ToList();
                 if(children.Count > 0)
                 {

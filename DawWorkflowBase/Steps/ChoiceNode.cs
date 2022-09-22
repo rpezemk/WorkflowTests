@@ -26,7 +26,6 @@ namespace DawWorkflowBase.Steps
         }
 
 
-
         public void SetNext(Condition<TContext> condition, Steps.AStep<TContext> outStep) 
         {
             Links.LinkInstance<TContext> linkInstance = new Links.LinkInstance<TContext>(condition, outStep);
@@ -45,6 +44,16 @@ namespace DawWorkflowBase.Steps
             var condition = new Condition<TContext>(func) { CName = conditionName };
             Links.LinkInstance<TContext> linkInstance = new Links.LinkInstance<TContext>(condition, outStep);
             ResultLinks.Add(linkInstance);
+        }
+
+
+        public void SetNextOC<OtherContext>(Func<TContext, bool> func, string conditionName, Func<TContext, OtherContext> translator, Steps.AStep<OtherContext> outStep) where OtherContext: IContext
+        {
+            var condition = new Condition<TContext>(func) { CName = conditionName };
+            Links.LinkInstance<OtherContext> linkInstance = new Links.LinkInstance<OtherContext>(new Condition<OtherContext>() { IsEndPoint = true, Func = (oc) => true }, outStep);
+            outStep.StepContext = translator.Invoke(StepContext);
+            base.ForeignContexLink = linkInstance;
+            base.ForeignType = linkInstance.GetType();
         }
 
     }

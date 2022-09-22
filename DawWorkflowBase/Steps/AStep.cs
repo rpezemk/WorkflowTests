@@ -27,8 +27,8 @@ namespace DawWorkflowBase.Steps
         public string Name { get  ; set ; }
         public List<Links.LinkInstance<TContext>> ResultLinks { get; set; } = new List<LinkInstance<TContext>>();
         
-
-
+        public Links.ILinkInstance ForeignContexLink { get; set; }
+        public Type ForeignType { get; set; }
 
         public TContext StepContext { get; set; }
         
@@ -41,7 +41,6 @@ namespace DawWorkflowBase.Steps
         {
             return Name;
         }
-
 
 
         public bool CheckIfEndPoint()
@@ -69,6 +68,9 @@ namespace DawWorkflowBase.Steps
         List<ILinkInstance> IStep.GetLinks()
         {
             var test = ResultLinks.Select(l => l as ILinkInstance).ToList();
+            if (ForeignContexLink != null)
+                test = test.Union(new List<ILinkInstance>() { ForeignContexLink }).ToList();
+
             return test;
         }
 
@@ -80,6 +82,12 @@ namespace DawWorkflowBase.Steps
                 return;
 
             MyAction.Invoke((TContext)context);
+        }
+
+        public string GetContextTypeName()
+        {
+            var type = this.GetType().GenericTypeArguments[0];
+            return type.Name;
         }
     }
 

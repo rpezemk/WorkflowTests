@@ -23,18 +23,110 @@ using System.Web.Mvc;
 
 namespace TestingApp
 {
-    public class Response<T>
+    
+    class GraphLine
     {
-        public T Data { get; set; }
-
-        public void ThrowErrors()
-        {
-  
-        }
+        public string Parent = "";
+        public string Arrow = "";
+        public string Child = "";
+        public string ParentContext = "";
+        public string ChildContext = "";
     }
+
 
     internal static class Notifier
     {
+
+
+
+
+        internal static void NotifySerializedWithContextGroups(List<IStep> inputStepsSeries)
+        {
+            var serializedSteps = inputStepsSeries;
+            List<GraphLine> graphLines = new List<GraphLine>();
+
+
+            List<string> typeNames = inputStepsSeries.Select(s => s.GetContextTypeName()).Distinct().ToList();
+
+                //  flowchart TB
+                //     c1-- > a2
+                //     subgraph one
+                //     a1-- > a2
+                //     end
+                //     subgraph two
+                //     b1--> b2
+                //     end
+                //     subgraph three
+                //     c1--> c2
+                //     end
+
+
+
+            var resMermaid = "```mermaid\n\rflowchart TB\n\r";
+            var termCounter = 1;
+            var firstStep = inputStepsSeries.FirstOrDefault();
+
+            var thisName0 = firstStep.GetName();
+            var thisLinks0 = firstStep.GetLinks();
+
+
+
+            var firstTypeName = typeNames[0];
+
+            foreach (var step in serializedSteps)
+            {
+                var thisName = step.GetName();
+                var thisLinks = step.GetLinks();
+
+                foreach (var ch in thisLinks)
+                {
+                    var chName = ch.GetResultStep().GetName();
+                    var condName = ch.GetCondition().GetName();
+                    var arrow = "";
+                    if (string.IsNullOrEmpty(chName))
+                    {
+                        chName = "term" + termCounter.ToString();
+                        termCounter++;
+                    }
+
+                    arrow = string.IsNullOrEmpty(condName) ? " --> " : $" -- {condName} --> ";
+                    GraphLine graphLine = new GraphLine() { Parent = thisName, Child = chName, Arrow = arrow, ParentContext = step.GetContextTypeName(), ChildContext = ch.GetResultStep().GetContextTypeName() };
+                    graphLines.Add(graphLine);
+
+                }
+            }
+            
+            //general
+
+
+
+            foreach(GraphLine gl in graphLines.Where(gl => gl.ParentContext != gl.ChildContext))
+            {
+                resMermaid += $"{gl.Parent}{gl.Arrow}{gl.Child} \n";
+            }
+
+            foreach(var typeName in typeNames)
+            {
+                resMermaid += $" subgraph {typeName}\n\r";
+
+                foreach(var gl in graphLines.Where(gl => gl.ParentContext == gl.ChildContext && gl.ParentContext == typeName))
+                {
+                    resMermaid += $"{gl.Parent}{gl.Arrow}{gl.Child} \n";
+                }
+                resMermaid += $" end\n\r";
+            }
+
+
+
+
+
+            resMermaid += "```\r\n";
+            Console.WriteLine(resMermaid);
+
+            ReplacePage(resMermaid);
+
+        }
+
         internal static void NotifySerialized(List<IStep> serializedSteps)
         {
             var resMermaid = "```mermaid\n\rflowchart TB\n\r";

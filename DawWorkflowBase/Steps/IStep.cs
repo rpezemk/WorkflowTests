@@ -18,6 +18,7 @@ namespace DawWorkflowBase.Steps
         void SetEndPoint(bool isEndPoint);
         IContext GetContext();
         List<Links.ILinkInstance> GetLinks();
+        string GetContextTypeName();
         string ToString();
     }
 

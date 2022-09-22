@@ -32,70 +32,97 @@ namespace TestingApp
   
         }
     }
+
     internal static class Notifier
     {
-        private static IGraphQLClient _client;
-
-        private static string mdText = @"## jakiś przykład";
-//   moj jakiś tekst plus poniżej przykłady diagramu z netu
-//   * przykład 1
-//   ```mermaid
-//     graph TD;
-//         A-->B;
-//         A-->C;
-//         B-->D;
-//         C-->D;
-//   ```
-     
-     
-//   * przykład 2
-//   ```mermaid
-//   sequenceDiagram
-//       participant dotcom
-//       participant iframe
-//       participant viewscreen
-//       dotcom->>iframe: loads html w/ iframe url
-//       iframe->>viewscreen: request template
-//       viewscreen->>iframe: html & javascript
-//       iframe->>dotcom: iframe ready
-//       dotcom->>iframe: set mermaid data on iframe
-//       iframe->>iframe: render mermaid
-//   ```
-//";
-
-
-        internal static async void SendWorkflowGraph(List<IStep> serialized)
+        internal static void NotifySerialized(List<IStep> serializedSteps)
         {
+            var resMermaid = "```mermaid\n\rflowchart TB\n\r";
+            var termCounter = 1;
+            foreach(var step in serializedSteps)
+            {
+                var thisName = step.GetName();
+                var thisLinks = step.GetLinks();
 
-            var query = @"
-                mutation {
+                foreach(var ch in thisLinks)
+                {
+                    var chName = ch.GetResultStep().GetName();
+                    var condName = ch.GetCondition().GetName();
+                    var arrow = "";
+                    if (string.IsNullOrEmpty(chName))
+                    {
+                        chName = "term" + termCounter.ToString();
+                        termCounter++;
+                    }
+
+                    arrow = string.IsNullOrEmpty(condName) ? " --> " : $" -- {condName} --> ";
+                    resMermaid += $"{thisName}{arrow}{chName} \n";
+                }
+            }
+
+            resMermaid += "```\r\n";
+            Console.WriteLine(resMermaid);
+            var htmlMermaid = System.Net.WebUtility.HtmlEncode(resMermaid);
+            Console.WriteLine(htmlMermaid);
+            //ReplacePage(htmlMermaid);
+
+        }
+
+
+
+        internal static async void ReplacePage(string content)
+        {
+            var exactContent = content.Replace("\n", @"\n").Replace("\r", @"\r");
+
+            var queryGet = @"query { pages { list { id title } } }";
+            if (!SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryGet, out var outData1))
+                return;
+
+            var godmodePrefix = "TestStruktury";
+            var pages = outData1["data"]["pages"]["list"].ToList();
+            var idsToDel = pages.Where(jt => Convert.ToString(jt["title"]).StartsWith(godmodePrefix)).Select(jt => Convert.ToString(jt["id"])).ToList();
+            
+
+            foreach(var id in idsToDel)
+            {
+                var queryDel = @"mutation { pages { delete (id: " + id + "){responseResult {succeeded errorCode slug message}} } } ";
+                SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryDel, out var outData2);
+            }
+
+            var nextId = pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
+
+            var queryCreate = @"mutation {
                             pages {
                                 create (
-                                    content: """ + @"* przykład 1 ```mermaid   graph TD;       A-->B;       A-->C;       B-->D;       C-->D; ```" + @" ""
+                                    content: """ + exactContent + @" ""
                                     description: ""test3""
                                     editor: ""markdown""
                                     isPublished: true
                                     isPrivate: false
                                     locale: ""pl""
-                                    path: ""/home/GodModeGen999000""
+                                    path: ""/home/" + godmodePrefix  + nextId.ToString() + @"""
                                     tags:[""#someTag""]
-                                    title: ""PZ_TEST""
-                                ) {
-                                            responseResult {
-                                                succeeded
-                                                slug
-                                                message
-                                            }
-                                            page {
-                                                content
-                                                id
-                                            }
-                                        }
-                                    }
+                                    title: """ + godmodePrefix + nextId.ToString() + @"""
+                                ) {responseResult { succeeded slug message }
+                                   page { content id } } }
                                 }";
 
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://10.1.2.88:5555/graphql");
+            Console.WriteLine(queryCreate);
+            if (!SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryCreate, out var keyValuePairs))
+                return;
+
+            foreach(var kvp in keyValuePairs)
+            {
+                Console.WriteLine($"{kvp.Key}{kvp.Value.ToString()}");
+            }
+
+        }
+
+        public static bool SendQGraphQuery(string url, string query, out JObject resultData)
+        {
+            resultData = null;
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Method = "POST";
             httpWebRequest.Accept = "application/json";
             httpWebRequest.ContentType = "application/json;charset=UTF-8";
@@ -103,33 +130,33 @@ namespace TestingApp
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                string json = new JavaScriptSerializer().Serialize(new
+                string json1 = new JavaScriptSerializer().Serialize(new
                 {
                     query = query,
-                    //operationName = "mutation",
                     variables = new List<string>()
                 });
-                streamWriter.Write(json);
+                streamWriter.Write(json1);
             }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
+            string json2 = "";
+
+
+            bool isOK = true;
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
-                var json = streamReader.ReadToEnd();
-                //var data = (JObject)JsonConvert.DeserializeObject(json);
-                //if (data["errors"]["faultCode"].Value<int>() != 0)
-                //    throw new Exception($"Odpowiedź z błędem: {data["errors"]["faultString"].Value<string>()}");
-                //else
-                //{
-                //    foreach (var result in data["Results"])
-                //    {
-                        
-                //    }
-                //}
+                try
+                {
+                    json2 = streamReader.ReadToEnd();
+                }
+                catch
+                {
+                    isOK = false;
+                }
             }
-
-            return;
+            resultData = (JObject)JsonConvert.DeserializeObject(json2);
+            return isOK;
         }
     }
 }

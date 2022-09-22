@@ -7,6 +7,7 @@ namespace DawWorkflowBase.Conditions
     public interface ICondition
     {
         bool Evaluate(IContext context);
+        string GetName();
     }
 
 }

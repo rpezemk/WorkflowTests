@@ -45,7 +45,6 @@
     <Compile Include="Conditions.cs" />
     <Compile Include="SampleWorkflow.cs" />
     <Compile Include="SteppableLib.cs" />
-    <Compile Include="SteppableMethods.cs" />
     <Compile Include="Model\Doc.cs" />
     <Compile Include="Model\NB.cs" />
     <Compile Include="Model\Pos.cs" />

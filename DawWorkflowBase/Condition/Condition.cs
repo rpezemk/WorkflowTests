@@ -13,7 +13,7 @@ namespace DawWorkflowBase.Conditions
     public class Condition<TContext> : ICondition where TContext: Context.IContext
     {
         public Func<TContext, bool> Func { get; set; }
-        public string Name { get; set; }
+        public string CName { get; set; }
         public bool IsEndPoint { get; set; }
         public bool IsNot { get; set; }
         public Condition<TContext> Child1 { get; set; }
@@ -23,12 +23,12 @@ namespace DawWorkflowBase.Conditions
         {
             Func = func;
             IsEndPoint = true;
-            Name = name;
+            CName = name;
         }
 
         public Condition(string name = "")
         {
-            Name = name;
+            CName = name;
         }
 
         public Condition<TContext> AND(Condition<TContext> c2)
@@ -87,7 +87,7 @@ namespace DawWorkflowBase.Conditions
             }
 
             cloned.IsNot = IsNot;
-            cloned.Name = Name + (IsNot == true? "*NOT ": "");
+            cloned.CName = CName + (IsNot == true? "*NOT ": "");
             if(Operator != null)
             {
                 cloned.Operator = Operator;
@@ -115,6 +115,11 @@ namespace DawWorkflowBase.Conditions
                 var res2 = Child2.Evaluate(context);
                 return res2 ^ IsNot;
             }
+        }
+
+        public string GetName()
+        {
+            return CName;
         }
     }
 

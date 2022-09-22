@@ -22,7 +22,8 @@ namespace TestingApp
 
             var worker = new DawWorkflowBase.Workers.Worker<SampleContext>(sampleWorkflow);
             var serialized = worker.SerializeSteps();
-            Notifier.SendWorkflowGraph(serialized);
+
+            Notifier.NotifySerialized(serialized);
 
             worker.RunWorkflow();
             //ChoiceNode<SampleContext> A0 = new ChoiceNode<SampleContext>() { MyAction = (a) => Console.WriteLine("A0") };

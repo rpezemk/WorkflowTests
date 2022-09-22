@@ -10,40 +10,68 @@ using System.Net.Http;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using GraphQL;
+using GraphQL.Client.Abstractions;
+using GraphQL.Client.Http;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Net;
+using System.IO;
+using System.Web.Script.Serialization;
+using System.Web.Mvc;
 
 namespace TestingApp
 {
+    public class Response<T>
+    {
+        public T Data { get; set; }
+
+        public void ThrowErrors()
+        {
+  
+        }
+    }
     internal static class Notifier
     {
+        private static IGraphQLClient _client;
+
+        private static string mdText = @"## jakiś przykład";
+//   moj jakiś tekst plus poniżej przykłady diagramu z netu
+//   * przykład 1
+//   ```mermaid
+//     graph TD;
+//         A-->B;
+//         A-->C;
+//         B-->D;
+//         C-->D;
+//   ```
+     
+     
+//   * przykład 2
+//   ```mermaid
+//   sequenceDiagram
+//       participant dotcom
+//       participant iframe
+//       participant viewscreen
+//       dotcom->>iframe: loads html w/ iframe url
+//       iframe->>viewscreen: request template
+//       viewscreen->>iframe: html & javascript
+//       iframe->>dotcom: iframe ready
+//       dotcom->>iframe: set mermaid data on iframe
+//       iframe->>iframe: render mermaid
+//   ```
+//";
 
 
-        public class Query
-        {
-            public Hero GetHero() => new Hero();
-        }
-
-        public class Hero
-        {
-            public string Name => "Luke Skywalker";
-        }
         internal static async void SendWorkflowGraph(List<IStep> serialized)
         {
-            WebHost
-.CreateDefaultBuilder(args)
-.ConfigureServices(services =>
-   services
-       .AddGraphQLServer()
-       .AddQueryType<Query>())
-.Configure(builder =>
-   builder
-       .UseRouting()
-       .UseEndpoints(e => e.MapGraphQL()))
-.Build()
-.Run();
-            var res = @"mutation {
+
+            var query = @"
+                mutation {
                             pages {
                                 create (
-                                    content: "" ## jezdobsze wiec spox ""
+                                    content: """ + @"* przykład 1 ```mermaid   graph TD;       A-->B;       A-->C;       B-->D;       C-->D; ```" + @" ""
                                     description: ""test3""
                                     editor: ""markdown""
                                     isPublished: true
@@ -67,25 +95,41 @@ namespace TestingApp
                                 }";
 
 
-            using (var client = new HttpClient())
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://10.1.2.88:5555/graphql");
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Accept = "application/json";
+            httpWebRequest.ContentType = "application/json;charset=UTF-8";
+            httpWebRequest.Headers["Authorization"] = @"Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGkiOjEsImdycCI6MSwiaWF0IjoxNjYzNDEwOTMxLCJleHAiOjE3NTgwODM3MzEsImF1ZCI6InVybjp3aWtpLmpzIiwiaXNzIjoidXJuOndpa2kuanMifQ.dSzRx2hqkiV6MDFJCKQ4xkCKPXVZkkERbAYFBI8p86NdC57d-Rk7RlhzXjCgjISKR-YaRRJ7Dxdku-xcGwBKtTpjddZRSl7yGMWeXEUnj1fY55AKqRG_N6ZbpR_QWMx0HMzKamMz_Z_0spObBIUEulswabIUzicp_fEVxqIP98OVI-j67_knFBRut6kmO8c3hlksGWHinivNF5GwBF5A8PC_b7wNwV0rwRfXcEGWy7xDQVFlAEJ_FlpBCbEtdXBQL1CE2hjw7ILbzakmCxiem44uqkg4pZ0Eoz4B7cdNSQY1EZT_Sjry0IgHkYSngR5hXwo1SZO3FBXdFreYqQLQjQ";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                client.BaseAddress = new Uri("http://10.1.2.88:5555/");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGkiOjEsImdycCI6MSwiaWF0IjoxNjYzNDEwOTMxLCJleHAiOjE3NTgwODM3MzEsImF1ZCI6InVybjp3aWtpLmpzIiwiaXNzIjoidXJuOndpa2kuanMifQ.dSzRx2hqkiV6MDFJCKQ4xkCKPXVZkkERbAYFBI8p86NdC57d-Rk7RlhzXjCgjISKR-YaRRJ7Dxdku-xcGwBKtTpjddZRSl7yGMWeXEUnj1fY55AKqRG_N6ZbpR_QWMx0HMzKamMz_Z_0spObBIUEulswabIUzicp_fEVxqIP98OVI-j67_knFBRut6kmO8c3hlksGWHinivNF5GwBF5A8PC_b7wNwV0rwRfXcEGWy7xDQVFlAEJ_FlpBCbEtdXBQL1CE2hjw7ILbzakmCxiem44uqkg4pZ0Eoz4B7cdNSQY1EZT_Sjry0IgHkYSngR5hXwo1SZO3FBXdFreYqQLQjQ");
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8"); 
-                client.DefaultRequestHeaders.Add("body", res);
-                var content = new FormUrlEncodedContent(new[]
+                string json = new JavaScriptSerializer().Serialize(new
                 {
-                new KeyValuePair<string, string>("body", res)
-            });
-                var result = client.PostAsync("/graphql", content);
-                string resultContent = await result.Result.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
+                    query = query,
+                    //operationName = "mutation",
+                    variables = new List<string>()
+                });
+                streamWriter.Write(json);
             }
 
-            //foreach(var s in serialized)
-            //{
-            //    res += $@"{s.GetName()}{}";
-            //}
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var json = streamReader.ReadToEnd();
+                //var data = (JObject)JsonConvert.DeserializeObject(json);
+                //if (data["errors"]["faultCode"].Value<int>() != 0)
+                //    throw new Exception($"Odpowiedź z błędem: {data["errors"]["faultString"].Value<string>()}");
+                //else
+                //{
+                //    foreach (var result in data["Results"])
+                //    {
+                        
+                //    }
+                //}
+            }
+
+            return;
         }
     }
 }

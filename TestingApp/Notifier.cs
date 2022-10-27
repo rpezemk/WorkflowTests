@@ -48,20 +48,6 @@ namespace TestingApp
 
             List<string> typeNames = inputStepsSeries.Select(s => s.GetContextTypeName()).Distinct().ToList();
 
-                //  flowchart TB
-                //     c1-- > a2
-                //     subgraph one
-                //     a1-- > a2
-                //     end
-                //     subgraph two
-                //     b1--> b2
-                //     end
-                //     subgraph three
-                //     c1--> c2
-                //     end
-
-
-
             var resMermaid = "```mermaid\n\rflowchart TB\n\r";
             var termCounter = 1;
             var firstStep = inputStepsSeries.FirstOrDefault();
@@ -96,8 +82,6 @@ namespace TestingApp
                 }
             }
             
-            //general
-
 
 
             foreach(GraphLine gl in graphLines.Where(gl => gl.ParentContext != gl.ChildContext))
@@ -123,7 +107,7 @@ namespace TestingApp
             resMermaid += "```\r\n";
             Console.WriteLine(resMermaid);
 
-            ReplacePage(resMermaid);
+            ReplaceOrCreatePage(resMermaid);
 
         }
 
@@ -155,13 +139,13 @@ namespace TestingApp
             resMermaid += "```\r\n";
             Console.WriteLine(resMermaid);
 
-            ReplacePage(resMermaid);
+            ReplaceOrCreatePage(resMermaid);
 
         }
 
 
 
-        internal static async void ReplacePage(string content)
+        internal static async void ReplaceOrCreatePage(string content)
         {
             var exactContent = content.Replace("\n", @"\n").Replace("\r", @"\r").Replace("(", @"&#40").Replace(")", @"&#41");
 
@@ -179,9 +163,8 @@ namespace TestingApp
                 var queryDel = @"mutation { pages { delete (id: " + id + "){responseResult {succeeded errorCode slug message}} } } ";
                 SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryDel, out var outData2);
             }
-
-            var nextId = 77777;// pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
-
+            var now = DateTime.Now;
+            var suffix = now.ToString("_yyMMdd_hhmm") ;// pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
             var queryCreate = @"mutation {
                             pages {
                                 create (
@@ -191,9 +174,9 @@ namespace TestingApp
                                     isPublished: true
                                     isPrivate: false
                                     locale: ""pl""
-                                    path: ""/home/" + godmodePrefix  + nextId.ToString() + @"""
+                                    path: ""/GodMode/" + godmodePrefix + @"""
                                     tags:[""#someTag""]
-                                    title: """ + godmodePrefix + nextId.ToString() + @"""
+                                    title: """ + godmodePrefix + suffix + @"""
                                 ) {responseResult { succeeded slug message }
                                    page { content id } } }
                                 }";

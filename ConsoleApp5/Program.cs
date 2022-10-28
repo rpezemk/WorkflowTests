@@ -1,27 +1,42 @@
 ﻿using OpenCvSharp;
+using System.Collections.Generic;
+using System.IO;
+
 namespace ConsoleApp4
 {
-    internal class Program
+    internal partial class Program
     {
         static void Main(string[] args)
         {
 
-            string inputFileName = @"C:\Users\Przemek.Zaremba\source\repos\WorkflowTests2\ConsoleApp3\test.bmp";
+            string inputFileName = @"C:\Users\Przemek.Zaremba\source\repos\WorkflowTests2\ConsoleApp5\input.bmp";
             string outputFileName = $"{Path.GetFileNameWithoutExtension(inputFileName)}-gray.jpg";
             var image = new Mat(inputFileName);
-            var gray = image.CvtColor(ColorConversionCodes.BGR2GRAY);
-            gray.SaveImage(outputFileName);
+            var gray = image.CvtColor(ColorConversionCodes.BGR2GRAY).Threshold(190, 255, ThresholdTypes.Binary);
+            //Cv2.ImShow("test", gray);
+            //Cv2.WaitKeyEx();
+            Mat[] mats = new List<Mat>().ToArray();
+
+
+            string cornerFileName = @"C:\Users\Przemek.Zaremba\source\repos\WorkflowTests2\ConsoleApp5\corner.bmp";
+            var cornerGray = new Mat(cornerFileName).CvtColor(ColorConversionCodes.BGR2GRAY).Threshold(190, 255, ThresholdTypes.Binary);
             Cv2.ImShow("test", gray);
             Cv2.WaitKeyEx();
-            Mat[] mats = new List<Mat>().ToArray();
-           
-            gray.FindContours(out var points, out var hier, RetrievalModes.List, ContourApproximationModes.ApproxSimple);
+            Cv2.ImShow("test", cornerGray);
+            Cv2.WaitKeyEx();
+            List<Shape> inputShapes = Helpers.GetShapes(gray);
 
-            foreach (var shape in points)
+            Shape marker = Helpers.ExtractMarker(cornerGray);
+
+            foreach (Shape shape in inputShapes)
             {
-                foreach(var )
+                double res = Helpers.GetSimilarity(marker, shape);
             }
-           
+
+            Console.WriteLine("test");
+
         }
+
+        
     }
 }

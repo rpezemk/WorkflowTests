@@ -22,6 +22,40 @@ namespace DawWorkflowBase.Steps
         string ToString();
     }
 
+    public class Dupa
+    {
+        public string Nazwa;
+        private string nazwa2;
+
+        public string Nazwa2
+        {
+            get { return nazwa2; }
+            set { nazwa2 = value; }
+        }
+    }
+
+    public static class Helpers
+    {
+        public static void TestMethod()
+        {
+            Dupa dupa1 = new Dupa();
+
+
+            var t = dupa1.GetType();
+
+
+            foreach(var p in t.GetProperties())
+            {
+
+            }
+
+            foreach (var f in t.GetFields().Where(f => f.IsPublic == false))
+            {
+
+            }
+
+        }
+    }
 
     
 }

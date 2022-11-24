@@ -48,17 +48,17 @@ namespace TestingApp
 
             List<string> typeNames = inputStepsSeries.Select(s => s.GetContextTypeName()).Distinct().ToList();
 
-                //  flowchart TB
-                //     c1-- > a2
-                //     subgraph one
-                //     a1-- > a2
-                //     end
-                //     subgraph two
-                //     b1--> b2
-                //     end
-                //     subgraph three
-                //     c1--> c2
-                //     end
+            //  flowchart TB
+            //     c1-- > a2
+            //     subgraph one
+            //     a1-- > a2
+            //     end
+            //     subgraph two
+            //     b1--> b2
+            //     end
+            //     subgraph three
+            //     c1--> c2
+            //     end
 
 
 
@@ -180,7 +180,7 @@ namespace TestingApp
                 SendQGraphQuery($"http://10.1.2.88:5555/graphql", queryDel, out var outData2);
             }
 
-            var nextId = 77777;// pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
+            var nextId = 99;// pages.Select(jt => Convert.ToInt32(jt["id"])).LastOrDefault();
 
             var queryCreate = @"mutation {
                             pages {

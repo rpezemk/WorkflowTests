@@ -1,0 +1,563 @@
+﻿<Window x:Class="PHUP_Windykacje.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PHUP_Windykacje"
+        xmlns:ctrls="clr-namespace:PHUP_Windykacje.MyControls"
+        mc:Ignorable="d" FontSize="14"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:vm ="clr-namespace:PHUP_Windykacje.ViewModel"
+        xmlns:view ="clr-namespace:PHUP_Windykacje.View"
+        Title="Windykacje" Icon="/PHUP_Windykacje.ico" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MyStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <view:DecimalToStringConv x:Key="DecimalToStringConv"/>
+            <view:YetAnotherDateToStringConverter x:Key="YetAnotherDateToStringConverter"/>
+            <!--<view:DFList2StringConv x:Key="DFList2StringConv"/>-->
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:VM_Main/>
+    </Window.DataContext>
+    <Grid>
+
+        <TabControl SelectedIndex="0">
+            <!--<TabItem Header="TEST!!!" DataContext="{Binding VM_RaportTable}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*" MaxWidth="200"/>
+                            <ColumnDefinition Width="2*" MaxWidth="10" MinWidth="40"/>
+                            <ColumnDefinition Width="10*" MaxWidth="130"/>
+                            <ColumnDefinition Width="10*" MaxWidth="300"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" 
+                                IsEnabled="{Binding ControlsEnabled}"
+                                Content="Wczytaj z bazy" Margin="20,30,20,30" FontWeight="Bold" FontSize="15"
+                                Command="{Binding LoadRaportDataCommand}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Od:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" Text="Do:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Grid.Row="3" Text="Seria:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <ctrls:MyDateTextBox Grid.Column="2" Grid.Row="1" MyDate="{Binding DataOd, Mode=TwoWay}"/>
+                        <ctrls:MyDateTextBox Grid.Column="2" Grid.Row="2" MyDate="{Binding DataDo, Mode=TwoWay}"/>
+                        <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Seria}"/>
+                        <StackPanel Grid.Column="3" Orientation="Vertical" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Center">
+                            <Button Content="Zapisz do bazy" Background="#cf5646" 
+                                IsEnabled="{Binding ControlsEnabled}"
+                                Foreground="White" FontWeight="Bold" FontSize="15"
+                                Command="{Binding SendToDBCommand}" Height="40" Width="230"
+                                Margin="5"/>
+                            <Button Content="USUŃ TEN PRZYCISK" Height="40" Width="230" Margin="5"
+                                    Visibility="Collapsed"
+                                    Command="{Binding ExportToExcelCmd}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" MinHeight="25">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*" MinWidth="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid  Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton 
+                                Height="25" 
+                                VerticalAlignment="Top"  
+                                ToolTipService.InitialShowDelay="500"
+                                Content="Filtry" 
+                                Margin="0,0,0,20"
+                                IsChecked="{Binding FiltersVisible}" 
+                                Grid.Column="0">
+                                <ToggleButton.ToolTip>
+                                    Filtr już wczytanych danych
+                                </ToggleButton.ToolTip>
+                            </ToggleButton>
+                            <ListView Height="60" x:Name="MyListView2" Grid.Column="1" ItemsSource="{Binding Filters}" BorderBrush="Transparent">
+                                <ListView.Resources>
+                                    <Style TargetType="ListView">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding FiltersVisible}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FiltersVisible}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.Resources>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Height="{Binding Path=Height, ElementName=MyListView}" Width="{Binding Path=Width, ElementName=MyListView}" Background="AliceBlue" Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Transparent" BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox Grid.Column="0" Margin="0,3,2,0" IsChecked="{Binding IsActive}"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                        <DataGrid 
+                            MaxWidth="400"
+                            HorizontalAlignment="Left"
+                            Grid.Column="1"
+                            Grid.Row="1" ItemsSource="{Binding Filters}" 
+                            CanUserAddRows="False"
+                            HeadersVisibility="None" 
+                            AutoGenerateColumns="False"
+                            HorizontalGridLinesBrush="Transparent"
+                            VerticalGridLinesBrush="Transparent" RowHeaderWidth="25"
+                                  >
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGrid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding FiltersVisible}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding FiltersVisible}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" MinWidth="100"/>
+                                <DataGridTemplateColumn  Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="X" Command="{Binding ResetFilterCmd}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <ctrls:MyDataGrid Grid.Row="2" 
+                              x:Name="MyDataGrid13"
+                              RowHeight="{x:Static sys:Double.NaN}" 
+                              ItemsSource="{Binding VM_RaportRows}"
+                              AutoGenerateColumns="False" CanUserAddRows="False" 
+                              SelectionChanged="DataGrid_SelectionChanged"
+                              HorizontalGridLinesBrush="LightGray"
+                              VerticalGridLinesBrush="LightGray" RowHeaderWidth="25"
+                              >
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Height" Value="Auto"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Padding" Value="0,0,0,0"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn SortMemberPath="Lp" Header="Lp." Binding="{Binding Lp}" Width="auto" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Akronim" Binding="{Binding KntAkronim}" Width="auto"  IsReadOnly="True"/>
+                            <DataGridTemplateColumn SortMemberPath="KntNazwa" Header="Nazwa kontrahenta"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding KntNazwa}" HorizontalAlignment="Left" Padding="5,0,5,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Numer dokumentu"  SortMemberPath="NrDok"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding NrDok}" HorizontalAlignment="Left" Padding="5,0,10,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Suma brutto dok."  SortMemberPath="ValueBrut"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding ValueBrut, Converter={StaticResource DecimalToStringConv}}" HorizontalAlignment="Right" Padding="0,0,5,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Data wystawienia"  SortMemberPath="DataWyst"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding DataWyst, StringFormat=yyyy-MM-dd, Converter={StaticResource  YetAnotherDateToStringConverter}}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Termin płatności"  SortMemberPath="TerminPlat"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding TerminPlat, StringFormat=yyyy-MM-dd}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Opiekun"  SortMemberPath="PhOpiekun"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding PhOpiekun}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Email opiekuna"  SortMemberPath="PhEmail"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock   HorizontalAlignment="Left" Padding="5,0,0,0">
+                                            <Hyperlink  NavigateUri="{Binding PhEmail}" RequestNavigate="Hyperlink_RequestNavigate" >
+                                                <TextBlock Text="{Binding PhEmail}"/>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Opis"  SortMemberPath="Opis"  Width="40*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox BorderThickness="0" Text="{Binding Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 IsReadOnly="True"
+                                                 Cursor="Arrow"
+                                                 HorizontalAlignment="Stretch" 
+                                                 LostFocus="TextBox_LostFocus"
+                                                 MouseDoubleClick="TextBox_MouseDoubleClick"
+                                                 Background="White"
+                                                 TextWrapping="Wrap" Height="Auto">
+
+                                        </TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridCheckBoxColumn  SortMemberPath="PreventExport"  Header="Nie eksportuj" Binding="{Binding PreventExport}" Width="auto"/>
+                        </DataGrid.Columns>
+                    </ctrls:MyDataGrid>
+                    <Grid Grid.Row="3">
+                        <StatusBar  HorizontalAlignment="Stretch">
+                            <StatusBarItem HorizontalContentAlignment="Stretch">
+                                <Grid>
+                                    <ProgressBar x:Name="ProgressBarRaport2" Minimum="0" Maximum="100" Value="{Binding RaportProgress, Mode=OneWay}"  IsIndeterminate="False" Height="14" />
+                                </Grid>
+                            </StatusBarItem>
+                        </StatusBar>
+                    </Grid>
+
+                </Grid>
+            </TabItem>-->
+            <TabItem Header="Raport" DataContext="{Binding VM_RaportTable}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*" MaxWidth="200"/>
+                            <ColumnDefinition Width="2*" MaxWidth="10" MinWidth="40"/>
+                            <ColumnDefinition Width="10*" MaxWidth="130"/>
+                            <ColumnDefinition Width="10*" MaxWidth="300"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" 
+                                IsEnabled="{Binding ControlsEnabled}"
+                                Content="Wczytaj z bazy" Margin="20,30,20,30" FontWeight="Bold" FontSize="15"
+                                Command="{Binding LoadRaportDataCommand}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Od:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" Text="Do:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Grid.Row="3" Text="Seria:" TextAlignment="Right" Margin="0,0,10,0"/>
+                        <ctrls:MyDateTextBox Grid.Column="2" Grid.Row="1" MyDate="{Binding DataOd, Mode=TwoWay}"/>
+                        <ctrls:MyDateTextBox Grid.Column="2" Grid.Row="2" MyDate="{Binding DataDo, Mode=TwoWay}"/>
+                        <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Seria}"/>
+                        <StackPanel Grid.Column="3" Orientation="Vertical" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Center">
+                            <Button Content="Zapisz do bazy" Background="#cf5646" 
+                                IsEnabled="{Binding ControlsEnabled}"
+                                Foreground="White" FontWeight="Bold" FontSize="15"
+                                Command="{Binding SendToDBCommand}" Height="40" Width="230"
+                                Margin="5"/>
+                            <Button Content="USUŃ TEN PRZYCISK" Height="40" Width="230" Margin="5"
+                                    Visibility="Collapsed"
+                                    Command="{Binding ExportToExcelCmd}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" MinHeight="25">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*" MinWidth="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid  Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton 
+                                Height="25" 
+                                VerticalAlignment="Top"  
+                                ToolTipService.InitialShowDelay="500"
+                                Content="Filtry" 
+                                Margin="0,0,0,20"
+                                IsChecked="{Binding FiltersVisible}" 
+                                Grid.Column="0">
+                                <ToggleButton.ToolTip>
+                                    Filtr już wczytanych danych
+                                </ToggleButton.ToolTip>
+                            </ToggleButton>
+                            <ListView Height="60" x:Name="MyListView4" Grid.Column="1" ItemsSource="{Binding Filters}" BorderBrush="Transparent">
+                                <ListView.Resources>
+                                    <Style TargetType="ListView">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding FiltersVisible}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FiltersVisible}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.Resources>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Height="{Binding Path=Height, ElementName=MyListView4}" Width="{Binding Path=Width, ElementName=MyListView4}" Background="AliceBlue" Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Transparent" BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox Grid.Column="0" Margin="0,3,2,0" IsChecked="{Binding IsActive}"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                        <DataGrid  
+                            MaxWidth="400"
+                            HorizontalAlignment="Left"
+                            Grid.Column="1"
+                            Grid.Row="1" ItemsSource="{Binding Filters}" 
+                            CanUserAddRows="False"
+                            HeadersVisibility="None" 
+                            AutoGenerateColumns="False"
+                            HorizontalGridLinesBrush="Transparent"
+                            VerticalGridLinesBrush="Transparent" RowHeaderWidth="25"
+                                  >
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGrid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding FiltersVisible}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding FiltersVisible}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" MinWidth="100"/>
+                                <DataGridTemplateColumn  Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="X" Command="{Binding ResetFilterCmd}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <DataGrid Grid.Row="2" 
+                              x:Name="MyDataGrid135"
+                              RowHeight="{x:Static sys:Double.NaN}" 
+                                ItemsSource="{Binding VM_RaportRows}"
+                              AutoGenerateColumns="False" CanUserAddRows="False" 
+                              SelectionChanged="DataGrid_SelectionChanged"
+                              HorizontalGridLinesBrush="LightGray"
+                              VerticalGridLinesBrush="LightGray" RowHeaderWidth="25"
+                              >
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Height" Value="Auto"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Padding" Value="0,0,0,0"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn SortMemberPath="Lp" Header="Lp." Binding="{Binding Lp}" Width="auto" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Akronim" Binding="{Binding KntAkronim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="auto"  IsReadOnly="True"/>
+                            <DataGridTemplateColumn SortMemberPath="KntNazwa" Header="Nazwa kontrahenta"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding KntNazwa}" HorizontalAlignment="Left" Padding="5,0,5,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Numer dokumentu"  SortMemberPath="NrDok"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding NrDok}" HorizontalAlignment="Left" Padding="5,0,10,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Suma brutto dok."  SortMemberPath="ValueBrut"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding ValueBrut, Converter={StaticResource DecimalToStringConv}}" HorizontalAlignment="Right" Padding="0,0,5,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Data wystawienia"  SortMemberPath="DataWyst"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding DataWyst, StringFormat=yyyy-MM-dd, Converter={StaticResource  YetAnotherDateToStringConverter}}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Termin płatności"  SortMemberPath="TerminPlat"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding TerminPlat, StringFormat=yyyy-MM-dd}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Opiekun"  SortMemberPath="PhOpiekun"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Text="{Binding PhOpiekun}" HorizontalAlignment="Left" Padding="5,0,0,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Email opiekuna"  SortMemberPath="PhEmail"  Width="auto" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock   HorizontalAlignment="Left" Padding="5,0,0,0">
+                                            <Hyperlink  NavigateUri="{Binding PhEmail}" RequestNavigate="Hyperlink_RequestNavigate" >
+                                                <TextBlock Text="{Binding PhEmail}"/>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Opis"  SortMemberPath="Opis"  Width="40*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox BorderThickness="0" Text="{Binding Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 IsReadOnly="True"
+                                                 Cursor="Arrow"
+                                                 HorizontalAlignment="Stretch" 
+                                                 LostFocus="TextBox_LostFocus"
+                                                 MouseDoubleClick="TextBox_MouseDoubleClick"
+                                                 Background="White"
+                                                 TextWrapping="Wrap" Height="Auto">
+
+                                        </TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridCheckBoxColumn  SortMemberPath="PreventExport"  Header="Nie eksportuj" Binding="{Binding PreventExport}" Width="auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Row="3">
+                        <StatusBar  HorizontalAlignment="Stretch">
+                            <StatusBarItem HorizontalContentAlignment="Stretch">
+                                <Grid>
+                                    <ProgressBar x:Name="ProgressBarRaport4" Minimum="0" Maximum="100" Value="{Binding RaportProgress, Mode=OneWay}"  IsIndeterminate="False" Height="14" />
+                                </Grid>
+                            </StatusBarItem>
+                        </StatusBar>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

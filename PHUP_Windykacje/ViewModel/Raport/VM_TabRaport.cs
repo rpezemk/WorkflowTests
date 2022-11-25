@@ -48,7 +48,7 @@ namespace PHUP_Windykacje.ViewModel
 		private async void SendToDB()
 		{
 			ControlsEnabled = false;
-			var task = Task.Run(() => SQL.InsertUpdateOpisyRaportu1(VM_RaportRows.Select(vm => vm.RaportRow).Where(r => string.IsNullOrEmpty(r.Opis) == false).ToList(), (n, c) => UpdateAction(n, c)));
+			var task = Task.Run(() => SQL.InsertUpdateOpisyRaportu1(VM_RaportRows.Select(vm => vm.Filters).Where(r => string.IsNullOrEmpty(r.Opis) == false).ToList(), (n, c) => UpdateAction(n, c)));
 			await task;
 			LoadRaportDataCommand.Execute();
 			RaportProgress = 0;
@@ -84,7 +84,7 @@ namespace PHUP_Windykacje.ViewModel
 
 		private void RefreshFiltered()
 		{
-			var resRaportRows = new ObservableCollection<VM_RaportRow>(VM_OriginalRaportRows.Select(r => r).ToList());
+			var resRaportRows = new ObservableCollection<VM_ErrorDef>(VM_OriginalRaportRows.Select(r => r).ToList());
 			if (FiltersVisible)
 			{
 
@@ -101,7 +101,7 @@ namespace PHUP_Windykacje.ViewModel
 									continue;
 
 
-                                resRaportRows = new ObservableCollection<VM_RaportRow>(
+                                resRaportRows = new ObservableCollection<VM_ErrorDef>(
                                    resRaportRows.Where(vm =>
                                    {
                                        var prop = vm.GetType().GetProperty(filter.Name);
@@ -128,7 +128,7 @@ namespace PHUP_Windykacje.ViewModel
                             }
 							else
 							{
-                                resRaportRows = new ObservableCollection<VM_RaportRow>(
+                                resRaportRows = new ObservableCollection<VM_ErrorDef>(
                                     resRaportRows.Where(vm =>
                                     {
                                         var prop = vm.GetType().GetProperty(filter.Name);
@@ -160,7 +160,7 @@ namespace PHUP_Windykacje.ViewModel
 					}
 				}
 			}
-			VM_RaportRows = new ObservableCollection<VM_RaportRow>(resRaportRows);
+			VM_RaportRows = new ObservableCollection<VM_ErrorDef>(resRaportRows);
 		}
 
 		#endregion Private methods
@@ -171,8 +171,8 @@ namespace PHUP_Windykacje.ViewModel
 		private DateTime dataOd = DateTime.Now.AddDays(-61);// DateTime.Now.AddDays(-61);
 		private DateTime dataDo = DateTime.Now;
 		private string seria = "01EL";
-		private ObservableCollection<VM_RaportRow> vM_RaportRows = new ObservableCollection<VM_RaportRow>();
-		private ObservableCollection<VM_RaportRow> vM_OriginalRaportRows = new ObservableCollection<VM_RaportRow>();
+		private ObservableCollection<VM_ErrorDef> vM_RaportRows = new ObservableCollection<VM_ErrorDef>();
+		private ObservableCollection<VM_ErrorDef> vM_OriginalRaportRows = new ObservableCollection<VM_ErrorDef>();
 		private int raportProgress;
 		private string query;
 		private DelegateCommand testCommand;
@@ -216,13 +216,13 @@ namespace PHUP_Windykacje.ViewModel
 			set { SetProperty(ref seria, value); }
 		}
 
-		public ObservableCollection<VM_RaportRow> VM_OriginalRaportRows
+		public ObservableCollection<VM_ErrorDef> VM_OriginalRaportRows
 		{
 			get { return vM_OriginalRaportRows; }
 			set { SetProperty(ref vM_OriginalRaportRows, value); }
 		}
 
-		public ObservableCollection<VM_RaportRow> VM_RaportRows
+		public ObservableCollection<VM_ErrorDef> VM_RaportRows
 		{
 			get { return vM_RaportRows; }
 			set { SetProperty(ref vM_RaportRows, value); }

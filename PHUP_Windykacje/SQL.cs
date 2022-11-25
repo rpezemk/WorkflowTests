@@ -1,4 +1,5 @@
 ﻿using PHUP_Windykacje.Model;
+using PHUP_Windykacje.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -282,7 +283,68 @@ namespace PHUP_Windykacje
 
         }
 
-        
+        public static List<ViewModel.VM_ErrorDef> GetErrorDefinitions()
+        {
+            var raportRows = new List<ViewModel.VM_ErrorDef>();
+            string query = @$"
+                            select  ed.ID, ed.Name, ed.Tip, 
+                                    efc.ID [efcID], efc.ErrorID, efc.TableName, efc.ColumnName, 
+                                    efc.[VALUE], efc.IsWildcard, efc.IsRegex from dbo.ErrorDefs ed
+                                left Join dbo.ErrorFilterColumns efc
+                                on ed.ID = efc.ErrorID
+                            ";
+
+
+
+            var dt = new DataTable();
+            try
+            {
+                using (var sqlConn = SqlConn)
+                {
+                    sqlConn.Open();
+                    using (SqlDataAdapter sqlCommand = new SqlDataAdapter(query, sqlConn))
+                    {
+                        sqlCommand.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex) { System.Windows.MessageBox.Show(ex.ToString() + " " + ex.Message); }
+
+            foreach (DataRow dataRow in dt.Rows)
+            {
+                var id = dataRow.Field<int>("ID");
+                if (raportRows.Where(r => r.ID == id).Any())
+                    continue;
+
+                var raportRow = new ViewModel.VM_ErrorDef();
+                raportRow.ID = id;
+                raportRow.Name = dataRow.Field<string>("Name") ?? "";
+                raportRow.Tip = dataRow.Field<string>("Tip") ?? "";
+                raportRows.Add(raportRow);
+            }
+
+            foreach(VM_ErrorDef vM_ErrorDef in raportRows)
+            {
+                var group = dt.AsEnumerable().Where(r => r.Field<int>("ErrorID") == vM_ErrorDef.ID);
+                vM_ErrorDef.Filters = new ObservableCollection<VM_ErrorFilterColumn>(group.Select(r => new VM_ErrorFilterColumn()
+                { 
+                    ID = r.Field<int>("efcID"), 
+                    ErrorID = r.Field<int>("ErrorID"),
+                    TableName = r.Field<string>("TableName"),
+                    ColumnName = r.Field<string>("ColumnName"),
+                    Value = r.Field<string>("Value"),
+                    IsWildCard = r.Field<bool>("IsWildCard"),
+                    IsRegex = r.Field<bool>("IsRegex")
+                }));
+            }
+
+
+            return raportRows;
+        }
+
+
+
+
     }
 
 

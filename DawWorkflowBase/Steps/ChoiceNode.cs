@@ -26,8 +26,9 @@ namespace DawWorkflowBase.Steps
         }
 
 
-        public void SetNext(Condition<TContext> condition, Steps.AStep<TContext> outStep) 
+        public void SetNext(Condition<TContext> condition, string conditionName, Steps.AStep<TContext> outStep) 
         {
+            condition.CName = conditionName;
             Links.LinkInstance<TContext> linkInstance = new Links.LinkInstance<TContext>(condition, outStep);
             ResultLinks.Add(linkInstance);
         }

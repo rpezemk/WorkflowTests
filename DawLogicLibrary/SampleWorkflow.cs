@@ -44,6 +44,8 @@ namespace DawLogicLibrary
         
         public override void SetForkflow()
         {
+
+
             ChoiceNode<SampleContext> A0  = new ChoiceNode<SampleContext>() { Name = "A0", MyAction = (a) => Console.WriteLine("root") };
             ChoiceNode<SampleContext> A1  = new ChoiceNode<SampleContext>() { Name = "A1", MyAction = (a) => Console.WriteLine("A1") };
             ChoiceNode<SampleContext> A21 = new ChoiceNode<SampleContext>() { Name = "A21", MyAction = (a) => Console.WriteLine("A21") };
@@ -88,7 +90,17 @@ namespace DawLogicLibrary
             SampleContext sampleContext1 = new SampleContext();
 
 
-            A0.SetNext(a => true, "jeśli coś", A1);
+
+            Condition<SampleContext> condition1 = new Condition<SampleContext>(new Func<SampleContext, bool>((s) => s.Doc != null));
+            Condition<SampleContext> condition2 = new Condition<SampleContext>(new Func<SampleContext, bool>((s) => s.Zam.Rows.Count() >= 10));
+
+            var result = condition1.AND(condition2);
+            var resCond = condition1;
+
+            var elCondorPasa = result.OR(resCond);
+
+
+            A0.SetNext(resCond, "jeśli coś", A1);
             A1.SetNext(a => true, "jeśli nie", A21);
             A1.SetNext(a => true, "jeśli coś tam",  A22);
             

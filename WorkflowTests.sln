@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawWorkflowBase", "DawWorkflowBase\DawWorkflowBase.csproj", "{8DE85581-9D93-43E0-8466-E26EB618D00F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawLogicLibrary", "DawLogicLibrary\DawLogicLibrary.csproj", "{F53F41A5-1A76-4F99-8EBA-A9B527E0C0FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp\TestingApp.csproj", "{22576357-9741-42ED-B452-F0964EDE0C42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PHUP_Windykacje", "PHUP_Windykacje\PHUP_Windykacje.csproj", "{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

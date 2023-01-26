@@ -16,9 +16,9 @@ namespace PHUP_Windykacje
 
 #if DEBUG
 
-        private static string userName = "ZP0004";
+        private static string userName = "";
 #else
-        private static string userName = Environment.UserName == "przemek.zaremba"? "ZP0004" : Environment.UserName;
+        private static string userName = Environment.UserName == ""? "" : Environment.UserName;
 #endif
 
 
@@ -29,11 +29,11 @@ namespace PHUP_Windykacje
             {
                 var csb = new SqlConnectionStringBuilder
                 {
-                    DataSource = @"10.1.2.61\SQL01",
-                    InitialCatalog = "CDNXL_SZESZYCKI_SP",
-                    UserID = "raport105",
-                    Password = "raport",
-                    ApplicationName = "PHUP_Windykacje"
+                    DataSource = @"",
+                    InitialCatalog = "",
+                    UserID = "",
+                    Password = "",
+                    ApplicationName = ""
                 };
 
                 return new SqlConnection(csb.ConnectionString);
@@ -46,11 +46,11 @@ namespace PHUP_Windykacje
             {
                 var csb = new SqlConnectionStringBuilder
                 {
-                    DataSource = "SERWER-SQL",
-                    InitialCatalog = "CDNXL_SZESZYCKI_SP",
-                    UserID = "raport105",
-                    Password = "raport",
-                    ApplicationName = "PHUP_Windykacje"
+                    DataSource = "",
+                    InitialCatalog = "",
+                    UserID = "",
+                    Password = "",
+                    ApplicationName = ""
                 };
 
                 return new SqlConnection(csb.ConnectionString);

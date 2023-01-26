@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawLogicLibrary", "DawLogic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp\TestingApp.csproj", "{22576357-9741-42ED-B452-F0964EDE0C42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PHUP_Windykacje", "PHUP_Windykacje\PHUP_Windykacje.csproj", "{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22576357-9741-42ED-B452-F0964EDE0C42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDF6EFA6-FF49-4C3A-9D4E-E2B105BF5E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
